@@ -1,0 +1,110 @@
+:root{
+--nav-bg: #0D1117;
+--table-bg: #0D1117;
+--background: #161B22;
+--link-hover-bg: #171D24;
+--text-color: #ECF6FF;
+--link-color: #E1EAF3;
+--title-color: #BEC6CD;
+--table-border: #BEC6CD;
+--graphtheme: 'dark';
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-color);
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.2em;
+    text-align: center;
+    margin: 0;
+}
+  
+h1 {
+    margin-top: 160px;
+    margin-bottom: 100px;
+    font-size: 4em;
+}
+  
+table {
+    border: 0;
+    margin: 50px auto 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--table-bg);
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--table-border);
+    width: 400px;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    margin: 0;
+    padding: 14px;
+    z-index: 1000;
+    background-color: var(--nav-bg);
+}
+
+#notehub-icon {
+    height: 30px;
+    position: absolute;
+    left: 20px;
+}
+
+a {
+    color: var(--link-color);
+}
+
+p {
+    margin: 30px;
+    background-color: var(--table-bg);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+footer {
+    margin: 0;
+    margin-top: 500px;
+    background-color: var(--nav-bg);
+    text-align: left;
+    padding: 30px;
+}
+footer hr {
+    margin: 70px 10px 30px 10px;
+}
+
+.navlink {
+    text-decoration: none;
+    font-size: 1.2em;
+    color: var(--fg3);
+    padding: 10px 14px 10px 14px;
+    border-radius: 4px;
+    margin: 5px;
+}
+
+.navlink:hover {
+    border-bottom: 1px solid var(--table-border);
+    background-color: var(--link-hover-bg);
+}
+
+@media only screen and (max-device-width : 600px) {
+    body {
+        font-size: 2em;
+    }
+    nav {
+	padding: 20px 0 20px 0;
+    }
+    .navlink {
+	font-size: 0.8em;
+	padding: 20px 15px 20px 15px;
+    } 
+    footer {
+	margin-top: 800px;
+    }
+} 
