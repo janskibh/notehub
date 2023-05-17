@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `annees` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `annees` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `annonces` (
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `visible` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `devoirs` (
   `ressource` int DEFAULT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `groupes` (
   `annee` int NOT NULL,
   `alternance` tinyint(1) NOT NULL COMMENT 'FI ou FA',
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table des groupes de TP';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table des groupes de TP';
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `profs` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `nom` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `publications` (
   `ip_pub` int NOT NULL COMMENT 'ID publication dans sa table',
   `groupe` int NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `semestres` (
   `numero` int NOT NULL,
   `annee` int NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `statut` int NOT NULL,
   `groupe` int NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table utilisateurs';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table utilisateurs';
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
