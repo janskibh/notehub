@@ -12,7 +12,6 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 
 include 'functions.php';
 
-$username = $_SESSION['username'];
 $password = $_SESSION['password'];
 $config = $_SESSION['config'];
 $data = $_SESSION['data'];
@@ -160,7 +159,7 @@ $data = $_SESSION['data'];
       if (!isset($_GET['sem_id'])) {
         $sem = 0;
       } else {
-	$sem = intval($_GET['sem_id']);
+	      $sem = intval($_GET['sem_id']);
       }
       if ($sem >= sizeof($data)) {
         die("Numéro de semestre invalide");
@@ -169,8 +168,8 @@ $data = $_SESSION['data'];
       $notes = array();
       $michel = array("ressources", "saes");
       $allcolors = array(
-		0 => array("#FF4949", "#FFB14A", "#D8FF4A", "#4AFF4A", "#4AFFBA"),
-		1 => array("#C90000", "#D06F00", "#CAB000", "#06B800", "#00BF8F")
+		    0 => array("#FF4949", "#FFB14A", "#D8FF4A", "#4AFF4A", "#4AFFBA"),
+		    1 => array("#C90000", "#D06F00", "#CAB000", "#06B800", "#00BF8F")
       );
       $colors = $allcolors[$_SESSION['colormode']];
       foreach ($michel as $m) {
@@ -182,42 +181,42 @@ $data = $_SESSION['data'];
 	  	if (!is_null($eval->date)){
 			$eval->ressource = $ressource_key;
 			$notes[] = $eval;
-		}
-		if ($eval->note->value == "~") {
-			$noteval = '<td style="color: #888888">' . $eval->note->value . '</td>';
-		} else if (floatval($eval->note->value) == floatval($eval->note->max)){
-			$noteval = '<td style="color: ' . $colors[4] . '">' . $eval->note->value . '</td>';
-		} else if (floatval($eval->note->value) > floatval($eval->note->moy)){
-			$noteval = '<td style="color: ' . $colors[3] . '">' . $eval->note->value . '</td>';
-		} else if (floatval($eval->note->value) == floatval($eval->note->moy)){
-			$noteval = '<td style="color: ' . $colors[2] . '">' . $eval->note->value . '</td>';
-		} else if (floatval($eval->note->value) < floatval($eval->note->moy)){
-			$noteval = '<td style="color: ' . $colors[1] . '">' . $eval->note->value . '</td>';
-		} else if (floatval($eval->note->value) == floatval($eval->note->min)){
-			$noteval = '<td style="color: ' . $colors[0] . '">' . $eval->note->value . '</td>';
-		} else {
-			$noteval = '<td>' . $eval->note->value . '</td>';
-		}
-      		echo "<tr><td>" . $eval->description . "</td><td>" . $eval->coef . "</td>" . $noteval . "<td><span style='color: " . $colors[0] . "'>" . $eval->note->min . "</span> | <span style='color: " . $colors[2] . "'>" . $eval->note->moy . "</span> | <span style='color: " . $colors[4] . "'>" . $eval->note->max . "</span></td></tr>";
+      }
+      if ($eval->note->value == "~") {
+        $noteval = '<td style="color: #888888">' . $eval->note->value . '</td>';
+      } else if (floatval($eval->note->value) == floatval($eval->note->max)){
+        $noteval = '<td style="color: ' . $colors[4] . '">' . $eval->note->value . '</td>';
+      } else if (floatval($eval->note->value) > floatval($eval->note->moy)){
+        $noteval = '<td style="color: ' . $colors[3] . '">' . $eval->note->value . '</td>';
+      } else if (floatval($eval->note->value) == floatval($eval->note->moy)){
+        $noteval = '<td style="color: ' . $colors[2] . '">' . $eval->note->value . '</td>';
+      } else if (floatval($eval->note->value) < floatval($eval->note->moy)){
+        $noteval = '<td style="color: ' . $colors[1] . '">' . $eval->note->value . '</td>';
+      } else if (floatval($eval->note->value) == floatval($eval->note->min)){
+        $noteval = '<td style="color: ' . $colors[0] . '">' . $eval->note->value . '</td>';
+      } else {
+        $noteval = '<td>' . $eval->note->value . '</td>';
+      }
+          echo "<tr><td>" . $eval->description . "</td><td>" . $eval->coef . "</td>" . $noteval . "<td><span style='color: " . $colors[0] . "'>" . $eval->note->min . "</span> | <span style='color: " . $colors[2] . "'>" . $eval->note->moy . "</span> | <span style='color: " . $colors[4] . "'>" . $eval->note->max . "</span></td></tr>";
         }
-        echo "</table>";
+          echo "</table>";
         }
-    }
-    echo "<hr>";
-    echo "<table id='lastgrades'>";
-    echo "<tr><th class='rname' colspan='3'>Dernières notes</th></tr>";
-    echo "<tr><th>Eval</th><th>Date</th><th class='notecol'>Note</th></tr>";
-    function compareByDate($a, $b) {
-    	return strtotime($a->date) - strtotime($b->date);
-    }
-    usort($notes, 'compareByDate');
-    $notes = array_reverse($notes);
-    for ($i = 0; $i < sizeof($notes) && $i < 3; $i++) {
-	$notedate = strtotime($notes[$i]->date);
+      }
+      echo "<hr>";
+      echo "<table id='lastgrades'>";
+      echo "<tr><th class='rname' colspan='3'>Dernières notes</th></tr>";
+      echo "<tr><th>Eval</th><th>Date</th><th class='notecol'>Note</th></tr>";
+      function compareByDate($a, $b) {
+        return strtotime($a->date) - strtotime($b->date);
+      }
+      usort($notes, 'compareByDate');
+      $notes = array_reverse($notes);
+      for ($i = 0; $i < sizeof($notes) && $i < 3; $i++) {
+        $notedate = strtotime($notes[$i]->date);
         echo "<tr><td>" . $notes[$i]->ressource . " - " . $notes[$i]->description . "</td><td>" . date("d/m/Y", $notedate). "</td><td class='notecol'>" . $notes[$i]->note->value . "</td></tr>";
-    }
-    echo "</table>";
-    ?>
+      }
+      echo "</table>";
+      ?>
 		<footer><?php footer()?></footer>
   </body>
   <script src="main.js"></script>
@@ -241,7 +240,7 @@ $data = $_SESSION['data'];
     chart.render();
 
     i += 1;
-    }
+  }
   const graph = template.cloneNode(true);
   graph.setAttribute("id", `chart${i}`);
   container.appendChild(graph);

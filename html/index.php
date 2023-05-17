@@ -10,7 +10,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 }
 
 $config = $_SESSION['config'];
-include 'functions.php';
+include '../include/functions.php';
 
 ?>
 

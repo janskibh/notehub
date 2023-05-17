@@ -1,10 +1,11 @@
 <?php
-    function authentification($username, $password) {
+    function authcas($username, $password) {
 
         $s = curl_init();
 
         $url1 = "https://cas2.uvsq.fr/cas/login?service=https://bulletins.iut-velizy.uvsq.fr/services/doAuth.php";
-	$url2 = "https://bulletins.iut-velizy.uvsq.fr/services/data.php?q=semestresEtudiant";
+	    $url2 = "https://bulletins.iut-velizy.uvsq.fr/services/data.php?q=semestresEtudiant";
+        $url3 = "https://bulletins.iut-velizy.uvsq.fr/logout.php";
         curl_setopt($s, CURLOPT_URL, $url1);
         curl_setopt($s, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($s, CURLOPT_SSL_VERIFYPEER, false);
@@ -45,15 +46,15 @@
             }
         }
 
-	curl_setopt($s, CURLOPT_URL, $url2);
-	$semestres = curl_exec($s);
-	if (curl_getinfo($s, CURLINFO_HTTP_CODE) != 200) {
-	    if (curl_getinfo($s, CURLINFO_HTTP_CODE) == 500) {
-		return 4;
-	    } else {
-		return 1;
-	    }
-	}
+        curl_setopt($s, CURLOPT_URL, $url2);
+        $semestres = curl_exec($s);
+        if (curl_getinfo($s, CURLINFO_HTTP_CODE) != 200) {
+            if (curl_getinfo($s, CURLINFO_HTTP_CODE) == 500) {
+            return 4;
+            } else {
+            return 1;
+            }
+        }
         $semestres_data = json_decode($semestres, true);
 
         $semestres_json = array();
@@ -65,15 +66,17 @@
             $notes_request = curl_exec($s);
             array_push($semestres_json, json_decode($notes_request));
         }
+        curl_setopt($s, CURLOPT_URL, $url3);
+        curl_exec($s);
         curl_close($s);
 
         return $semestres_json;
     }
     function footer() {
         echo '<h2>A propos</h2>';
-	$modes = array("clair", "sombre", "sombre");
-	$modes_codes = array("1", "0", "0");
-	echo '<a href="colormode.php?mode=' . $modes_codes[$_SESSION['colormode']] . '&source=' . $_SERVER['REQUEST_URI'] . '">Mode ' . $modes[$_SESSION['colormode']] . '</a><br><br>';
+        $modes = array("clair", "sombre", "sombre");
+        $modes_codes = array("1", "0", "0");
+        echo '<a href="colormode.php?mode=' . $modes_codes[$_SESSION['colormode']] . '&source=' . $_SERVER['REQUEST_URI'] . '">Mode ' . $modes[$_SESSION['colormode']] . '</a><br><br>';
         echo '<a href="data_usage.php">Utilisation des données</a><br><br>';
         if (isset($_SESSION['status']) && $_SESSION['status'] == "a") {
             echo '<a href="admin.php">Admin</a>';
@@ -86,5 +89,10 @@
             echo '<a href="' . $value . '" class="navlink">' . $key . '</a>';
         };
         echo '<a href="logout.php" class="navlink" style="color: #FE2424">Deconnexion</a>';
+    }
+    function addlog($log_data) {
+        $log_file = fopen("$config->log_dir/notehub.log", "a") or die("Log Error");
+		fwrite($log_file, $log_data);
+		fclose($log_file);
     }
 ?>

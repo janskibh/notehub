@@ -1,0 +1,12 @@
+{
+	"hostname":"notehub",
+	"description":"Plateforme de visualisation des notes de BUT R&T",
+	"title":"NoteHub",
+	"admins":["22200239", "22202876", "22204502"],
+	"pages":{
+		"Notes":"notes.php?sem_id=0",
+		"Profil":"profil.php",
+		"Devoirs":"devoirs.php"
+	},
+	"log_dir":"../log"
+}

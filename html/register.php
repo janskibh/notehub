@@ -31,46 +31,32 @@ if (!isset($_SESSION['config'])) {
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['submit'])) {
     $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
+	$password2 = htmlspecialchars($_POST['password2'], ENT_QUOTES, 'UTF-8');
     if (is_null($username) || is_null($password) || $_POST['submit'] != "valider") {
         $error =  "Les champs ne doivent pas être vides";
 	} else if (strlen($username) > 30){
 		$error = "Nom d'utilisateur trop long";
+	} else if ($password != $password2){
+		$error = "Les mots de passe ne correspondent pas";
     } else {
-		$con=mysqli_connect("127.0.0.1","root","","notehub");
+		$con = mysqli_connect("127.0.0.1","root","","notehub");
 		// Check connection
-		if (mysqli_connect_errno()) {
-			echo "Failed to connect to MySQL : " . mysqli_connect_error();
-		}
-		// Create database
-		$result = mysqli_query($con, "SELECT password FROM utilisateurs WHERE username = " . $username);
-		if ($result) {
-			if (md5($password) == mysqli_fetch_array($result)[0]) {
-				$_SESSION['password'] = $password;
-				$_SESSION['username'] = $username;
+		if (!mysqli_connect_errno()) {
+			mysqli_query($con, "INSERT INTO utilisateurs (username, password, statut) VALUES ('" . $username . "', '" . md5($password) . "', 10)");
 
-				$now = getdate();
-				$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " logged in from " . $_SERVER['REMOTE_ADDR'] . " with session : " . session_id() . "\n";
-			
-				log($log);
+			$now = getdate();
+			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
+			addlog($log_data);
 
-				if (isset($_GET["page"])) {
-					header("Location: " . $_GET["page"]);
-					exit();
-				} else {
-					header("Location: index.php");
-					exit();
-				}
-				mysqli_close($con);
-			} else {
-				$now = getdate();
-				$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " tried to log in from " . $_SERVER['REMOTE_ADDR'] . " wrong password : " . $password . "\n";
-			
-				addlog($log_data);
-				$error = "Nom d'utilisateur ou mot de passe incorrect";
-			}
+			$_SESSION['password'] = $password;
+			$_SESSION['username'] = $username;
+
+			header("Location: index.php");
+			exit();
 		} else {
-				$error = "Nom d'utilisateur ou mot de passe incorrect";
+			$error =  "Erreur connexion à la BDD : " . mysqli_connect_error();
 		}
+
 	}
 }
 ?>
@@ -145,12 +131,12 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
    </style>
 </head>
   <body>
-    <h1>Connexion</h1>
+    <h1>Créer un compte</h1>
     <form action="" method="post">
 		<?php echo $error; ?>
         <input type="text" placeholder="Identifiant" name="username" required>
         <input type="password" placeholder="Mot de passe" name="password" required>
-		<a href="register.php">Créer un compte</a>
+		<input type="password" placeholder="Confirmer le mot de passe" name="password2" required>
 		<input type="submit" value="valider" name="submit">
     </form>
   <footer><?php footer()?></footer>

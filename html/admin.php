@@ -14,7 +14,7 @@ if ($_SESSION['status'] != "a"){
 }
 
 $config = $_SESSION['config'];
-include 'functions.php';
+include '../include/functions.php';
 ?>
 
 <!DOCTYPE html>
