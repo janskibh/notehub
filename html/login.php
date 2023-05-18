@@ -36,7 +36,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 	} else if (strlen($username) > 30){
 		$error = "Nom d'utilisateur trop long";
     } else {
-		$con=mysqli_connect("127.0.0.1","root","","notehub");
+		$con=mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
 		// Check connection
 		if (mysqli_connect_errno()) {
 			echo "Failed to connect to MySQL : " . mysqli_connect_error();

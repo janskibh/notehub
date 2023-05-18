@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 17 mai 2023 à 16:23
+-- Généré le : jeu. 18 mai 2023 à 09:34
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -114,6 +114,20 @@ CREATE TABLE IF NOT EXISTS `publications` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `ressources`
+--
+
+DROP TABLE IF EXISTS `ressources`;
+CREATE TABLE IF NOT EXISTS `ressources` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `semestre` int NOT NULL,
+  `nom` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `semestres`
 --
 
@@ -122,6 +136,19 @@ CREATE TABLE IF NOT EXISTS `semestres` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `numero` int NOT NULL,
   `annee` int NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `statuts`
+--
+
+DROP TABLE IF EXISTS `statuts`;
+CREATE TABLE IF NOT EXISTS `statuts` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -140,9 +167,16 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `passcas` varchar(255) DEFAULT NULL,
   `pp_url` varchar(255) DEFAULT NULL,
   `statut` int NOT NULL,
-  `groupe` int NOT NULL,
+  `groupe` int DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table utilisateurs';
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Table utilisateurs';
+
+--
+-- Déchargement des données de la table `utilisateurs`
+--
+
+INSERT INTO `utilisateurs` (`ID`, `username`, `password`, `usercas`, `passcas`, `pp_url`, `statut`, `groupe`) VALUES
+(2, 'test', '098f6bcd4621d373cade4e832627b4f6', NULL, NULL, NULL, 10, NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

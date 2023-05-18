@@ -39,7 +39,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 	} else if ($password != $password2){
 		$error = "Les mots de passe ne correspondent pas";
     } else {
-		$con = mysqli_connect("127.0.0.1","root","","notehub");
+		$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
 		// Check connection
 		if (!mysqli_connect_errno()) {
 			mysqli_query($con, "INSERT INTO utilisateurs (username, password, statut) VALUES ('" . $username . "', '" . md5($password) . "', 10)");
