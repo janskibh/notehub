@@ -10,13 +10,13 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     exit();
 }
 
-include 'functions.php';
+include '../include/functions.php';
 
 $username = $_SESSION['username'];
 $password = $_SESSION['password'];
 $config = $_SESSION['config'];
 
-$data = $_SESSION['data'];
+$data = $_SESSION['userdata']
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +34,18 @@ $data = $_SESSION['data'];
 	<?php nav($config);?>
     </nav>
     <h1>Etudiant</h1>
-    <form action="addcas.php">
-      <input type="text" name="usercas" value="<?php if (isset($_SESSION['usercas'])) { echo $_SESSION['usercas']; }?>"></input>
-      <input type="password" name="passcas" value="<?php if (isset($_SESSION['passcas'])) { echo $_SESSION['passcas']; }?>"></input>
+    <form action="addcas.php" method="post">
+      <input type="text" name="usercas" value="<?php echo isset($data['usercas']) ? $data['usercas'] : "";?>" placeholder="Identifiant CAS" style="grid-column: 1 / 3; grid-row: 1"></input>
+      <input type="password" name="passcas" value="<?php echo isset($data['passcas']) ? $data['passcas'] : "";?>" placeholder="Mot de passe CAS" style="grid-column: 1 / 3; grid-row: 2"></input>
+      <input type="submit" name="submit" value="Valider" style="grid-column: 2; grid-row: 3">
     </form>
+    <p style="text-align: left;">
+    <?php 
+      foreach($_SESSION['userdata'] as $key=>$value) {
+        echo $key . " => " . $value . "<br>";
+      }
+    ?>
+    </p>
     <footer><?php footer() ?></footer>
   </body>
   <script src="main.js"></script>

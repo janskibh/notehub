@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     header("Location: login.php?page=" . $_SERVER['REQUEST_URI']);
     exit();
 }
-include 'functions.php';
+include '../include/functions.php';
 
 $config = $_SESSION['config'];
 ?>

@@ -39,7 +39,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 		$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
 		// Check connection
 		if (mysqli_connect_errno()) {
-			$error = "Erreur BDD : " . mysqli_connect_error();
+			die("Erreur BDD : " . mysqli_connect_error());
 		}
 		$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "' AND password = '" . md5($password) . "'");
 		if (mysqli_num_rows($result) > 0) {
@@ -85,72 +85,6 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     <meta property="og:url" content="https://notehub.e59.fr/"/>
     <meta property="og:title" content=<?php echo "'$config->title'";?>/>
     <meta name="theme-color" data-react-helmet="true" content="#000000"/>
-   <style>
-	input {
-		padding: 10px;
-		margin: 20px;
-	}
-	input[type="text"],
-	input[type="password"] {
-        background-color: var(--table-bg);
-        color: var(--text-color);
-	    border: 0;
-        border-radius: 5px;
-        font-size: 30px;
-        outline: none;
-	}
-	input[type="submit"] {
-        background-color: var(--table-bg);
-        color: var(--text-colo2);
-        border: 0;
-        border-radius: 5px;
-        font-size: 20px;
-        cursor: pointer;
-        outline: none;
-	}
-	input[type="submit"]:hover {
-	    border-bottom: 1px solid var(--table-border);
-	}
-	form {
-	    margin: 0 auto;
-	    width: 500px;
-	    display: grid;
-        align-items: center;
-	}
-	.form_link {
-		background-color: var(--table-bg);
- 	    color: var(--text-colo2);
-	    border: 0;
-		padding: 10px;
-		margin: 20px;
-    	border-radius: 5px;
-        font-size: 20px;
-	    cursor: pointer;
-	    outline: none;
-		text-decoration: none;
-	}
-	.form_link:hover {
-		border-bottom: 1px solid var(--table-border);
-	}
-	@media only screen and (max-device-width: 600px){
-		form {
-			width: 100%;
-			margin: 0;
-		}
-		input[type="text"],
-		input[type="password"] {
-			font-size: 2em;
-			width: 80%;
-			margin: 40px;
-		}
-		input[type="submit"] {
-			font-size: 2em;
-			width: 250px;
-			margin-left: 542px;
-			margin-top: 40px;
-		}
-	}
-   </style>
 </head>
   <body>
     <h1>Connexion</h1>

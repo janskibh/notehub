@@ -10,11 +10,11 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     exit();
 }
 
-include 'functions.php';
+include '../include/functions.php';
 
 $password = $_SESSION['password'];
 $config = $_SESSION['config'];
-$data = $_SESSION['data'];
+$data = $_SESSION['userdata'];
 ?>
 
 <!DOCTYPE html>
@@ -142,6 +142,8 @@ $data = $_SESSION['data'];
     <nav>
 	  <?php nav($config)?>
     </nav>
+    <h1>Notes</h1>
+    <?php die("En construction");?>
     <div id="sem_links">
       <?php
       for ($i = 0; $i < sizeof($data); $i++) {

@@ -40,6 +40,53 @@ table th, table td {
     width: 400px;
 }
 
+input {
+    padding: 10px;
+    margin: 20px;
+}
+input[type="text"],
+input[type="password"] {
+    background-color: var(--table-bg);
+    color: var(--text-color);
+    border: 0;
+    border-radius: 5px;
+    font-size: 30px;
+    outline: none;
+}
+input[type="submit"] {
+    background-color: var(--table-bg);
+    color: var(--text-colo2);
+    border: 0;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    outline: none;
+}
+input[type="submit"]:hover {
+    border-bottom: 1px solid var(--table-border);
+}
+form {
+    margin: 0 auto;
+    width: 500px;
+    display: grid;
+    align-items: center;
+}
+.form_link {
+    background-color: var(--table-bg);
+     color: var(--text-colo2);
+    border: 0;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+}
+.form_link:hover {
+    border-bottom: 1px solid var(--table-border);
+}
+
 nav {
     position: fixed;
     top: 0;
@@ -106,5 +153,21 @@ footer hr {
     } 
     footer {
 	margin-top: 800px;
+    }
+    form {
+        width: 100%;
+        margin: 0;
+    }
+    input[type="text"],
+    input[type="password"] {
+        font-size: 2em;
+        width: 80%;
+        margin: 40px;
+    }
+    input[type="submit"] {
+        font-size: 2em;
+        width: 250px;
+        margin-left: 542px;
+        margin-top: 40px;
     }
 } 
