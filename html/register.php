@@ -42,17 +42,22 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 		$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
 		// Check connection
 		if (!mysqli_connect_errno()) {
-			mysqli_query($con, "INSERT INTO utilisateurs (username, password, statut) VALUES ('" . $username . "', '" . md5($password) . "', 10)");
+			$check = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
+			if (mysqli_num_rows($check) == 0) {
+				mysqli_query($con, "INSERT INTO utilisateurs (username, password, statut) VALUES ('" . $username . "', '" . md5($password) . "', 10)");
 
-			$now = getdate();
-			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
-			addlog($log_data);
+				$now = getdate();
+				$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
+				addlog($log_data);
 
-			$_SESSION['password'] = $password;
-			$_SESSION['username'] = $username;
+				$_SESSION['password'] = $password;
+				$_SESSION['username'] = $username;
 
-			header("Location: index.php");
-			exit();
+				//header("Location: index.php");
+				exit();
+			} else {
+				$error = "Le nom d'utilisateur existe déja";
+			}
 		} else {
 			$error =  "Erreur connexion à la BDD : " . mysqli_connect_error();
 		}

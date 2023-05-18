@@ -34,24 +34,10 @@ $data = $_SESSION['data'];
 	<?php nav($config);?>
     </nav>
     <h1>Etudiant</h1>
-    <table>
-    <tr><th colspan="2">Infos profil</th></tr>
-	<?php
-  $info_profil = $data[0];
-	echo "<tr><td>Date MAJ</td><td>" . $info_profil->relevé->date . "</td></tr>";
-	foreach($info_profil->relevé->etudiant as $key => $value) {
-	echo "<tr><td>" . $key . "</td><td>" . $value . "</td></tr>";
-	}
-	?>
-    </table>
-    <table>
-    <tr><th colspan="2">Formation</th></tr>
-	<?php
-	foreach($info_profil->relevé->formation as $key => $value) {
-	echo "<tr><td>" . $key . "</td><td>" . $value . "</td></tr>";
-	}
-	?>
-    </table>
+    <form action="addcas.php">
+      <input type="text" name="usercas" value="<?php if (isset($_SESSION['usercas'])) { echo $_SESSION['usercas']; }?>"></input>
+      <input type="password" name="passcas" value="<?php if (isset($_SESSION['passcas'])) { echo $_SESSION['passcas']; }?>"></input>
+    </form>
     <footer><?php footer() ?></footer>
   </body>
   <script src="main.js"></script>

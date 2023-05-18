@@ -36,40 +36,37 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 	} else if (strlen($username) > 30){
 		$error = "Nom d'utilisateur trop long";
     } else {
-		$con=mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
+		$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
 		// Check connection
 		if (mysqli_connect_errno()) {
-			echo "Failed to connect to MySQL : " . mysqli_connect_error();
+			$error = "Erreur BDD : " . mysqli_connect_error();
 		}
-		// Create database
-		$result = mysqli_query($con, "SELECT password FROM utilisateurs WHERE username = " . $username);
-		if ($result) {
-			if (md5($password) == mysqli_fetch_array($result)[0]) {
-				$_SESSION['password'] = $password;
-				$_SESSION['username'] = $username;
-
-				$now = getdate();
-				$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " logged in from " . $_SERVER['REMOTE_ADDR'] . " with session : " . session_id() . "\n";
-			
-				log($log);
-
-				if (isset($_GET["page"])) {
-					header("Location: " . $_GET["page"]);
-					exit();
-				} else {
-					header("Location: index.php");
-					exit();
-				}
-				mysqli_close($con);
-			} else {
-				$now = getdate();
-				$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " tried to log in from " . $_SERVER['REMOTE_ADDR'] . " wrong password : " . $password . "\n";
-			
-				addlog($log_data);
-				$error = "Nom d'utilisateur ou mot de passe incorrect";
+		$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "' AND password = '" . md5($password) . "'");
+		if (mysqli_num_rows($result) > 0) {
+			$_SESSION['password'] = $password;
+			$_SESSION['username'] = $username;
+			$row = mysqli_fetch_array($result);
+        	foreach ($row as $key => $value) {
+				$_SESSION['userdata'][$key] = $value;
 			}
+
+			$now = getdate();
+			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " logged in from " . $_SERVER['REMOTE_ADDR'] . " with session : " . session_id() . "\n";
+			addlog($log_data);
+
+			if (isset($_GET["page"])) {
+				header("Location: " . $_GET["page"]);
+				exit();
+			} else {
+				header("Location: index.php");
+				exit();
+			}
+			mysqli_close($con);
 		} else {
-				$error = "Nom d'utilisateur ou mot de passe incorrect";
+			$now = getdate();
+			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " tried to log in from " . $_SERVER['REMOTE_ADDR'] . " wrong password : " . $password . "\n";
+			addlog($log_data);
+			$error = "Nom d'utilisateur ou mot de passe incorrect";
 		}
 	}
 }
@@ -89,40 +86,51 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     <meta property="og:title" content=<?php echo "'$config->title'";?>/>
     <meta name="theme-color" data-react-helmet="true" content="#000000"/>
    <style>
+	input {
+		padding: 10px;
+		margin: 20px;
+	}
 	input[type="text"],
 	input[type="password"] {
-    	    background-color: var(--table-bg);
-    	    color: var(--text-color);
+        background-color: var(--table-bg);
+        color: var(--text-color);
 	    border: 0;
-    	    padding: 10px;
-    	    margin: 20px;
-    	    border-radius: 5px;
-    	    font-size: 30px;
-    	    outline: none;
-	    width: 400px;
+        border-radius: 5px;
+        font-size: 30px;
+        outline: none;
 	}
 	input[type="submit"] {
-    	    background-color: var(--table-bg);
-    	    color: var(--text-colo2);
-    	    border: 0;
-    	    padding: 10px 20px;
-    	    margin: 0;
-	    margin-left: 270px;
-	    margin-top: 20px;
-    	    border-radius: 5px;
-    	    font-size: 30px;
-    	    cursor: pointer;
-    	    outline: none;
-	    width: 150px;
+        background-color: var(--table-bg);
+        color: var(--text-colo2);
+        border: 0;
+        border-radius: 5px;
+        font-size: 20px;
+        cursor: pointer;
+        outline: none;
 	}
 	input[type="submit"]:hover {
-	    border-bottom: 1px solid var(--link-hover-bg);
+	    border-bottom: 1px solid var(--table-border);
 	}
 	form {
 	    margin: 0 auto;
 	    width: 500px;
-	    display: block;
-            align-items: center;
+	    display: grid;
+        align-items: center;
+	}
+	.form_link {
+		background-color: var(--table-bg);
+ 	    color: var(--text-colo2);
+	    border: 0;
+		padding: 10px;
+		margin: 20px;
+    	border-radius: 5px;
+        font-size: 20px;
+	    cursor: pointer;
+	    outline: none;
+		text-decoration: none;
+	}
+	.form_link:hover {
+		border-bottom: 1px solid var(--table-border);
 	}
 	@media only screen and (max-device-width: 600px){
 		form {
@@ -148,10 +156,10 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     <h1>Connexion</h1>
     <form action="" method="post">
 		<?php echo $error; ?>
-        <input type="text" placeholder="Identifiant" name="username" required>
-        <input type="password" placeholder="Mot de passe" name="password" required>
-		<a href="register.php">Créer un compte</a>
-		<input type="submit" value="valider" name="submit">
+        <input type="text" placeholder="Identifiant" name="username" style="grid-column: 1 / 3; grid-row: 1" required>
+        <input type="password" placeholder="Mot de passe" name="password" style="grid-column: 1 / 3; grid-row: 2"required>
+		<a href="register.php" class="form_link" style="grid-column: 1; grid-row: 3">Créer un compte</a>
+		<input type="submit" value="valider" name="submit" style="grid-column: 2; grid-row: 3">
     </form>
   <footer><?php footer()?></footer>
   </body>
