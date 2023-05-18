@@ -80,40 +80,53 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     <meta property="og:title" content=<?php echo "'$config->title'";?>/>
     <meta name="theme-color" data-react-helmet="true" content="#000000"/>
    <style>
+	input {
+		padding: 10px;
+		margin: 20px;
+	}
 	input[type="text"],
 	input[type="password"] {
-    	    background-color: var(--table-bg);
-    	    color: var(--text-color);
+        background-color: var(--table-bg);
+        color: var(--text-color);
 	    border: 0;
-    	    padding: 10px;
-    	    margin: 20px;
-    	    border-radius: 5px;
-    	    font-size: 30px;
-    	    outline: none;
+        border-radius: 5px;
+        font-size: 30px;
+        outline: none;
 	    width: 400px;
 	}
 	input[type="submit"] {
-    	    background-color: var(--table-bg);
-    	    color: var(--text-colo2);
-    	    border: 0;
-    	    padding: 10px 20px;
-    	    margin: 0;
-	    margin-left: 270px;
-	    margin-top: 20px;
-    	    border-radius: 5px;
-    	    font-size: 30px;
-    	    cursor: pointer;
-    	    outline: none;
+        background-color: var(--table-bg);
+        color: var(--text-color);
+        border: 0;
+    	border-radius: 5px;
+    	font-size: 20px;
+    	cursor: pointer;
+    	outline: none;
 	    width: 150px;
 	}
 	input[type="submit"]:hover {
-	    border-bottom: 1px solid var(--link-hover-bg);
+	    border-bottom: 1px solid var(--table-border);
 	}
 	form {
 	    margin: 0 auto;
 	    width: 500px;
-	    display: block;
-            align-items: center;
+	    display: grid;
+        align-items: center;
+	}
+	.form_link {
+		background-color: var(--table-bg);
+ 	    color: var(--text-colo2);
+	    border: 0;
+		padding: 10px;
+		margin: 20px;
+    	border-radius: 5px;
+        font-size: 20px;
+	    cursor: pointer;
+	    outline: none;
+		text-decoration: none;
+	}
+	.form_link:hover {
+		border-bottom: 1px solid var(--table-border);
 	}
 	@media only screen and (max-device-width: 600px){
 		form {
@@ -139,10 +152,11 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     <h1>Créer un compte</h1>
     <form action="" method="post">
 		<?php echo $error; ?>
-        <input type="text" placeholder="Identifiant" name="username" required>
-        <input type="password" placeholder="Mot de passe" name="password" required>
-		<input type="password" placeholder="Confirmer le mot de passe" name="password2" required>
-		<input type="submit" value="valider" name="submit">
+        <input type="text" placeholder="Identifiant" name="username" style="grid-column: 1 / 3; grid-row: 1" required>
+        <input type="password" placeholder="Mot de passe" name="password" style="grid-column: 1 / 3; grid-row: 2" required>
+		<input type="password" placeholder="Confirmer le mot de passe" name="password2" style="grid-column: 1 / 3; grid-row: 3" required>
+		<a href="login.php" class="form_link" style="grid-column: 1; grid-row: 4">Connexion</a>
+		<input type="submit" value="valider" name="submit" style="grid-column: 2; grid-row: 4">
     </form>
   <footer><?php footer()?></footer>
   </body>
