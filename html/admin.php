@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     header("Location: login.php");
     exit();
 }
-if ($_SESSION['userdata']['statut'] < 30){
+if ($_SESSION['userdata']['admin'] != 1){
 	http_response_code(403);
 	exit();
 }
