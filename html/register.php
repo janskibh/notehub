@@ -44,7 +44,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 		if (!mysqli_connect_errno()) {
 			$check = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
 			if (mysqli_num_rows($check) == 0) {
-				mysqli_query($con, "INSERT INTO utilisateurs (username, password, statut) VALUES ('" . $username . "', '" . md5($password) . "', 10)");
+				mysqli_query($con, "INSERT INTO utilisateurs (username, password, statut) VALUES ('" . $username . "', '" . md5($password) . "', 1)");
 
 				$now = getdate();
 				$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";

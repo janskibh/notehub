@@ -64,7 +64,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			mysqli_close($con);
 		} else {
 			$now = getdate();
-			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " tried to log in from " . $_SERVER['REMOTE_ADDR'] . " wrong password : " . $password . "\n";
+			$log_data = "F => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " tried to log in from " . $_SERVER['REMOTE_ADDR'] . " wrong password : " . $password . "\n";
 			addlog($log_data);
 			$error = "Nom d'utilisateur ou mot de passe incorrect";
 		}

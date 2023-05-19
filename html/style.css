@@ -39,11 +39,6 @@ table th, table td {
     border-bottom: 1px solid var(--table-border);
     width: 400px;
 }
-
-input {
-    padding: 10px;
-    margin: 20px;
-}
 input[type="text"],
 input[type="password"] {
     background-color: var(--table-bg);
@@ -52,6 +47,8 @@ input[type="password"] {
     border-radius: 5px;
     font-size: 30px;
     outline: none;
+    padding: 10px;
+    margin: 20px;
 }
 input[type="submit"] {
     background-color: var(--table-bg);
@@ -61,6 +58,8 @@ input[type="submit"] {
     font-size: 20px;
     cursor: pointer;
     outline: none;
+    padding: 10px;
+    margin: 20px;
 }
 input[type="submit"]:hover {
     border-bottom: 1px solid var(--table-border);
