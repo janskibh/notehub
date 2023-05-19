@@ -78,9 +78,7 @@
         $modes_codes = array("1", "0", "0");
         echo '<a href="colormode.php?mode=' . $modes_codes[$_SESSION['colormode']] . '&source=' . $_SERVER['REQUEST_URI'] . '">Mode ' . $modes[$_SESSION['colormode']] . '</a><br><br>';
         echo '<a href="data_usage.php">Utilisation des données</a><br><br>';
-        if (isset($_SESSION['status']) && $_SESSION['status'] == "a") {
-            echo '<a href="admin.php">Admin</a>';
-        };
+        echo $_SESSION['userdata']['statut'] >= 30 ? '<a href="admin.php">Admin</a>' : '';
         echo "<hr>&copy; 2023 Jan BELLON | Club Réseaux | IUT de Vélizy";
     }
     function nav($config) {
