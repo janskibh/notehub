@@ -88,8 +88,8 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 </head>
   <body>
     <h1>Connexion</h1>
+	<?php echo $error; ?>
     <form action="" method="post">
-		<?php echo $error; ?>
         <input type="text" placeholder="Identifiant" name="username" style="grid-column: 1 / 3; grid-row: 1" required>
         <input type="password" placeholder="Mot de passe" name="password" style="grid-column: 1 / 3; grid-row: 2"required>
 		<a href="register.php" class="form_link" style="grid-column: 1; grid-row: 3">Créer un compte</a>
