@@ -13,29 +13,34 @@ if ($_SESSION['userdata']['admin'] != 1){
 	exit();
 }
 
-if (isset($_POST['statut-update'])) {
-	if (isset($_POST['userid']) && isset($_POST['isadmin'])) {
-		$statut = $_POST['isadmin'];
-		$erreur = isset($_POST['admin']) ? $_POST['admin'] : "none";
-		if (isset($_POST['admin'])) {
-			if ($statut == 0) {
-				$statut = 1;
-			}
-		} else {
-			if ($statut == 1) {
-				$statut = 0;
-			}
-		}
-		$con = mysqli_connect("127.0.0.1","root",$_SESSION['config']->bdd,"notehub");
-		// Check connection
-		if (mysqli_connect_errno()) {
-			die("Erreur BDD : " . mysqli_connect_error());
-		}
-		mysqli_query($con, "UPDATE utilisateurs SET admin = '" . $statut . "' WHERE ID = " . $_POST['userid']);
-		mysqli_close($con);
-	} else {
-		$erreur = "Erreur mise a jour statut";
+if (isset($_POST['popadmin']) && isset($_POST['adminid']) && !empty($_POST['adminid'])) {
+	$con = mysqli_connect("127.0.0.1","root",$_SESSION['config']->bdd,"notehub");
+	// Check connection
+	if (mysqli_connect_errno()) {
+		die("Erreur BDD : " . mysqli_connect_error());
 	}
+	mysqli_query($con, "UPDATE utilisateurs SET admin = 0 WHERE ID = " . $_POST['adminid']);
+	mysqli_close($con);
+	$erreur = "Utilisateur retiré des admins";
+} else {
+	$erreur = "Erreur mise a jour statut";
+}
+
+if (isset($_POST['addadmin']) && isset($_POST['username']) && !empty($_POST['username'])) {
+	$con = mysqli_connect("127.0.0.1","root",$_SESSION['config']->bdd,"notehub");
+	// Check connection
+	if (mysqli_connect_errno()) {
+		die("Erreur BDD : " . mysqli_connect_error());
+	}
+	$adminupdate = mysqli_query($con, "UPDATE utilisateurs SET admin = 1 WHERE username = '" . $_POST['username']) . "'";
+	mysqli_close($con);
+	if(mysqli_affected_rows($adminupdate) > 0 ) {
+		$erreur = $_POST['username'] . " a rejoint le groupe des admins";
+	} else {
+		$erreur = "Aucun admin ajouté";
+	}
+} else {
+	$erreur = "Erreur mise a jour statut";
 }
 
 $config = $_SESSION['config'];
@@ -53,7 +58,7 @@ include '../include/functions.php';
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <style>
 	table td, table th {
-		width: 700px;
+		width: 0;
 	}
     </style>
   </head>
@@ -80,24 +85,25 @@ include '../include/functions.php';
 			echo "<tr><td>" . current($logs_lines) . "</td></tr>";
 		};
 	?>
-	</table><table>
-	<tr><th colspan="2">Utilisateurs</th></tr>
-	<tr><th>username</th><th>statut</th></tr>
-	<?php
-		$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
-		// Check connection
-		if (mysqli_connect_errno()) {
-			die("Erreur BDD : " . mysqli_connect_error());
-		}
-		$result = mysqli_query($con, "SELECT * FROM utilisateurs");
-		if (mysqli_num_rows($result) > 0) {
-			foreach ($result as $user) {
-				echo "<tr><td>" . $user['username'] . "</td><td><form action='' method='post'><input type='checkbox' name='admin'";
-				echo $user['admin'] == 1 ? "checked" : "";
-				echo " style='grid-column: 2; grid-row: 1'><label for='admin' style='grid-column: 1; grid-row: 1'>Admin</label><input type='hidden' name='userid' value='" . $user['ID'] . "'><input type='hidden' name='isadmin' value='" . $user['admin'] . "'><input type='submit' name='statut-update' value='Valider' style='grid-column: 2; grid-row: 2'></form></td></tr>";
+	</table>
+	<table>
+		<tr><th colspan="2">Table des admins</th></tr>
+		<tr><th>Admins</th><th></th></tr>
+		<?php
+			$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
+			// Check connection
+			if (mysqli_connect_errno()) {
+				die("Erreur BDD : " . mysqli_connect_error());
 			}
-		}
-	?>
+			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 1");
+			if (mysqli_num_rows($result) > 0) {
+				foreach ($result as $user) {
+					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popadmin' value='retirer'><input type='hidden' name='adminid' value='" . $user['ID'] . "'</td></form></tr>";
+				}
+			}
+		?>
+		<tr><th>Ajouter un admin</th><th></th></tr>
+		<tr><form action="" method="post"><td><input type='text' name='username' placeholder='username' style='font-size: 20px;'></td><td><input type='submit' name='addadmin' value='ajouter'></td></form></tr>
 	</table>
   <footer><?php footer()?></footer>
   </body>
