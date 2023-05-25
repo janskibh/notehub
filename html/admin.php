@@ -14,7 +14,7 @@ if ($_SESSION['userdata']['admin'] != 1){
 }
 
 if (isset($_POST['popadmin']) && isset($_POST['adminid']) && !empty($_POST['adminid'])) {
-	$con = mysqli_connect("127.0.0.1","root",$_SESSION['config']->bdd,"notehub");
+	$con = mysqli_connect("localhost","root",$_SESSION['config']->bdd,"notehub");
 	// Check connection
 	if (mysqli_connect_errno()) {
 		die("Erreur BDD : " . mysqli_connect_error());
@@ -27,7 +27,7 @@ if (isset($_POST['popadmin']) && isset($_POST['adminid']) && !empty($_POST['admi
 }
 
 if (isset($_POST['addadmin']) && isset($_POST['username']) && !empty($_POST['username'])) {
-	$con = mysqli_connect("127.0.0.1","root",$_SESSION['config']->bdd,"notehub");
+	$con = mysqli_connect("localhost","root",$_SESSION['config']->bdd,"notehub");
 	// Check connection
 	if (mysqli_connect_errno()) {
 		die("Erreur BDD : " . mysqli_connect_error());
@@ -90,7 +90,7 @@ include '../include/functions.php';
 		<tr><th colspan="2">Table des admins</th></tr>
 		<tr><th>Admins</th><th></th></tr>
 		<?php
-			$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
+			$con = mysqli_connect("localhost","root",$config->bdd,"notehub");
 			// Check connection
 			if (mysqli_connect_errno()) {
 				die("Erreur BDD : " . mysqli_connect_error());
@@ -104,6 +104,23 @@ include '../include/functions.php';
 		?>
 		<tr><th>Ajouter un admin</th><th></th></tr>
 		<tr><form action="" method="post"><td><input type='text' name='username' placeholder='username' style='font-size: 20px;'></td><td><input type='submit' name='addadmin' value='ajouter'></td></form></tr>
+	</table>
+	<table>
+		<tr><th colspan="2">Gestion des utilisateurs</th></tr>
+		<tr><th>Utilisateurs</th><th></th></tr>
+		<?php
+			$con = mysqli_connect("localhost","root",$config->bdd,"notehub");
+			// Check connection
+			if (mysqli_connect_errno()) {
+				die("Erreur BDD : " . mysqli_connect_error());
+			}
+			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 0");
+			if (mysqli_num_rows($result) > 0) {
+				foreach ($result as $user) {
+					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popuser' value='retirer'><input type='hidden' name='userid' value='" . $user['ID'] . "'</td></form></tr>";
+				}
+			}
+		?>
 	</table>
   <footer><?php footer()?></footer>
   </body>
