@@ -9,5 +9,5 @@
 		"Devoirs":"devoirs.php"
 	},
 	"log_dir":"../log",
-	"bdd":"2823STdg"
+	"bdd":"root"
 }
