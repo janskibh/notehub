@@ -18,26 +18,20 @@ include '../include/connect.php';
 if (isset($_POST['popadmin']) && isset($_POST['adminid']) && !empty($_POST['adminid'])) {
 	mysqli_query($con, "UPDATE utilisateurs SET admin = 0 WHERE ID = " . $_POST['adminid']);
 	$erreur = "Utilisateur retiré des admins";
-} else {
-	$erreur = "Erreur mise a jour statut";
 }
 
 if (isset($_POST['addadmin']) && isset($_POST['username']) && !empty($_POST['username'])) {
-	$adminupdate = mysqli_query($con, "UPDATE utilisateurs SET admin = 1 WHERE username = '" . $_POST['username']) . "'";
-	if(mysqli_affected_rows($adminupdate) > 0 ) {
+	mysqli_query($con, "UPDATE utilisateurs SET admin = 1 WHERE username = '" . $_POST['username'] ."'");
+	if(mysqli_affected_rows($con) > 0 ) {
 		$erreur = $_POST['username'] . " a rejoint le groupe des admins";
 	} else {
-		$erreur = "Aucun admin ajouté";
+		$erreur = "Aucun admin ajouté". mysqli_error($con);
 	}
-} else {
-	$erreur = "Erreur mise a jour statut";
 }
 
 if (isset($_POST['popuser']) && isset($_POST['userid']) && !empty($_POST['userid'])) {
 	mysqli_query($con, "DELETE FROM utilisateurs WHERE ID = " . $_POST['userid']);
 	$erreur = "Utilisateur supprimé";
-} else {
-	$erreur = "Erreur mise a jour statut";
 }
 
 $config = $_SESSION['config'];
@@ -90,7 +84,13 @@ include '../include/functions.php';
 			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 1");
 			if (mysqli_num_rows($result) > 0) {
 				foreach ($result as $user) {
-					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popadmin' value='retirer'><input type='hidden' name='adminid' value='" . $user['ID'] . "'</td></form></tr>";
+					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td>";
+					if ($user['username'] != $_SESSION['username']) {
+						echo "<td><input type='submit' name='popadmin' value='retirer'><input type='hidden' name='adminid' value='" . $user['ID'] . "'</td>";
+					} else {
+						echo "<td><input type='submit' name='popadmin' value='Cet utilisateur' disabled ></td>";
+					}
+					echo "</form></tr>";
 				}
 			}
 		?>
