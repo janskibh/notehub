@@ -25,7 +25,7 @@ if (isset($_POST['addadmin']) && isset($_POST['username']) && !empty($_POST['use
 	if(mysqli_affected_rows($con) > 0 ) {
 		$erreur = $_POST['username'] . " a rejoint le groupe des admins";
 	} else {
-		$erreur = "Aucun admin ajouté". mysqli_error($con);
+		$erreur = "Aucun admin ajouté";
 	}
 }
 
