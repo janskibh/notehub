@@ -28,6 +28,8 @@ if (!isset($_SESSION['config'])) {
 	$config = $_SESSION['config'];
 }
 
+include '../include/connect.php';
+
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['submit'])) {
     $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
@@ -36,11 +38,6 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 	} else if (strlen($username) > 30){
 		$error = "Nom d'utilisateur trop long";
     } else {
-		$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
-		// Check connection
-		if (mysqli_connect_errno()) {
-			die("Erreur BDD : " . mysqli_connect_error());
-		}
 		$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "' AND password = '" . md5($password) . "'");
 		if (mysqli_num_rows($result) > 0) {
 			$_SESSION['password'] = $password;

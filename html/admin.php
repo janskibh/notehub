@@ -13,34 +13,25 @@ if ($_SESSION['userdata']['admin'] != 1){
 	exit();
 }
 
+include '../include/connect.php';
+
 if (isset($_POST['popadmin']) && isset($_POST['adminid']) && !empty($_POST['adminid'])) {
-	$con = mysqli_connect("127.0.0.1","root",$_SESSION['config']->bdd,"notehub");
-	// Check connection
-	if (mysqli_connect_errno()) {
-		die("Erreur BDD : " . mysqli_connect_error());
-	}
 	mysqli_query($con, "UPDATE utilisateurs SET admin = 0 WHERE ID = " . $_POST['adminid']);
-	mysqli_close($con);
 	$erreur = "Utilisateur retiré des admins";
-} else {
-	$erreur = "Erreur mise a jour statut";
 }
 
 if (isset($_POST['addadmin']) && isset($_POST['username']) && !empty($_POST['username'])) {
-	$con = mysqli_connect("127.0.0.1","root",$_SESSION['config']->bdd,"notehub");
-	// Check connection
-	if (mysqli_connect_errno()) {
-		die("Erreur BDD : " . mysqli_connect_error());
-	}
-	$adminupdate = mysqli_query($con, "UPDATE utilisateurs SET admin = 1 WHERE username = '" . $_POST['username']) . "'";
-	mysqli_close($con);
-	if(mysqli_affected_rows($adminupdate) > 0 ) {
+	mysqli_query($con, "UPDATE utilisateurs SET admin = 1 WHERE username = '" . $_POST['username'] ."'");
+	if(mysqli_affected_rows($con) > 0 ) {
 		$erreur = $_POST['username'] . " a rejoint le groupe des admins";
 	} else {
 		$erreur = "Aucun admin ajouté";
 	}
-} else {
-	$erreur = "Erreur mise a jour statut";
+}
+
+if (isset($_POST['popuser']) && isset($_POST['userid']) && !empty($_POST['userid'])) {
+	mysqli_query($con, "DELETE FROM utilisateurs WHERE ID = " . $_POST['userid']);
+	$erreur = "Utilisateur supprimé";
 }
 
 $config = $_SESSION['config'];
@@ -87,18 +78,31 @@ include '../include/functions.php';
 	?>
 	</table>
 	<table>
-		<tr><th colspan="2">Table des admins</th></tr>
+		<tr><th colspan="2">Gestion des utilisateurs</th></tr>
+		<tr><th>Utilisateurs</th><th></th></tr>
+		<?php
+			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 0");
+			if (mysqli_num_rows($result) > 0) {
+				foreach ($result as $user) {
+					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popuser' value='supprimer'><input type='hidden' name='userid' value='" . $user['ID'] . "'</td></form></tr>";
+				}
+			}
+		?>
+	</table>
+	<table>
+		<tr><th colspan="2">Gedtion des admins</th></tr>
 		<tr><th>Admins</th><th></th></tr>
 		<?php
-			$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
-			// Check connection
-			if (mysqli_connect_errno()) {
-				die("Erreur BDD : " . mysqli_connect_error());
-			}
 			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 1");
 			if (mysqli_num_rows($result) > 0) {
 				foreach ($result as $user) {
-					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popadmin' value='retirer'><input type='hidden' name='adminid' value='" . $user['ID'] . "'</td></form></tr>";
+					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td>";
+					if ($user['username'] != $_SESSION['username']) {
+						echo "<td><input type='submit' name='popadmin' value='retirer'><input type='hidden' name='adminid' value='" . $user['ID'] . "'</td>";
+					} else {
+						echo "<td><input type='submit' name='popadmin' value='Cet utilisateur' disabled ></td>";
+					}
+					echo "</form></tr>";
 				}
 			}
 		?>
@@ -110,3 +114,4 @@ include '../include/functions.php';
   <script src="main.js"></script>
   <script>colormode(<?php echo $_SESSION['colormode']?>)</script>
 </html>
+<?php mysqli_close($con); ?>

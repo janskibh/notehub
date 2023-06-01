@@ -10,6 +10,26 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 }
 include '../include/functions.php';
 
+// Connexion à la base de données
+$conn = mysqli_connect('localhost', 'root', '2823STdg', 'notehub'); // Remplacez 'nom_utilisateur' et 'mot_de_passe' par vos identifiants de connexion à la base de données
+
+// Vérification de la connexion
+if (!$conn) {
+    die('Erreur de connexion à la base de données : ' . mysqli_connect_error());
+}
+
+// Requête SQL pour récupérer les devoirs triés par date croissante
+$sql = "SELECT * FROM devoirs ORDER BY date ASC";
+
+// Exécution de la requête
+$result = mysqli_query($conn, $sql);
+
+// Vérification des résultats de la requête
+if (!$result) {
+    die('Erreur lors de l\'exécution de la requête : ' . mysqli_error($conn));
+}
+
+
 $config = $_SESSION['config'];
 ?>
 
@@ -20,15 +40,28 @@ $config = $_SESSION['config'];
     <title><?php echo $config->title?></title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
+    <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   </head>
   <body>
     <nav>
 	<?php nav($config)?>
     </nav>
-    <h1>Devoirs</h1>
-    <p>En construction</p>
+    <h1>Liste des devoirs</h1>
+
+<?php
+// Affichage des devoirs
+while ($row = mysqli_fetch_assoc($result)) {
+    echo '<p>Date : ' . $row['date'] . '</p>';
+    echo '<p>Contenu : ' . $row['contenu'] . '</p>';
+    echo '<hr>';
+}
+
+// Fermeture de la connexion à la base de données
+mysqli_close($conn);
+?>
+
+
     <footer><?php footer()?></footer>
   </body>
   <script src="main.js"></script>
