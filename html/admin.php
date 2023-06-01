@@ -78,7 +78,19 @@ include '../include/functions.php';
 	?>
 	</table>
 	<table>
-		<tr><th colspan="2">Table des admins</th></tr>
+		<tr><th colspan="2">Gestion des utilisateurs</th></tr>
+		<tr><th>Utilisateurs</th><th></th></tr>
+		<?php
+			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 0");
+			if (mysqli_num_rows($result) > 0) {
+				foreach ($result as $user) {
+					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popuser' value='supprimer'><input type='hidden' name='userid' value='" . $user['ID'] . "'</td></form></tr>";
+				}
+			}
+		?>
+	</table>
+	<table>
+		<tr><th colspan="2">Gedtion des admins</th></tr>
 		<tr><th>Admins</th><th></th></tr>
 		<?php
 			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 1");
@@ -96,18 +108,6 @@ include '../include/functions.php';
 		?>
 		<tr><th>Ajouter un admin</th><th></th></tr>
 		<tr><form action="" method="post"><td><input type='text' name='username' placeholder='username' style='font-size: 20px;'></td><td><input type='submit' name='addadmin' value='ajouter'></td></form></tr>
-	</table>
-	<table>
-		<tr><th colspan="2">Gestion des utilisateurs</th></tr>
-		<tr><th>Utilisateurs</th><th></th></tr>
-		<?php
-			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 0");
-			if (mysqli_num_rows($result) > 0) {
-				foreach ($result as $user) {
-					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popuser' value='supprimer'><input type='hidden' name='userid' value='" . $user['ID'] . "'</td></form></tr>";
-				}
-			}
-		?>
 	</table>
   <footer><?php footer()?></footer>
   </body>
