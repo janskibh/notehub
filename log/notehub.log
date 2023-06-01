@@ -1,2 +1,11 @@
 C => 19/05/2023 12:31:04 -> admin logged in from 127.0.0.1 with session : p4agjmul1uc10blpf1032nefr1
 C => 19/05/2023 16:33:22 -> admin logged in from ::1 with session : msbvs7c348es4qqumjrvufu88q
+F => 25/05/2023 12:45:26 -> admin1 tried to log in from ::1 wrong password : password
+C => 25/05/2023 13:02:33 -> admin1 logged in from ::1 with session : sg3087kfcgfmu6utejrm8msdmj
+C => 01/06/2023 12:58:53 -> admin1 logged in from 127.0.0.1 with session : va1rcim5v8uctjtnrcuv210eja
+D => 01/06/2023 13:02:15 -> admin1 disconnected from 127.0.0.1
+C => 01/06/2023 13:03:10 -> user1 logged in from 127.0.0.1 with session : va1rcim5v8uctjtnrcuv210eja
+D => 01/06/2023 13:03:51 -> user1 disconnected from 127.0.0.1
+C => 01/06/2023 13:03:59 -> user1 logged in from 127.0.0.1 with session : va1rcim5v8uctjtnrcuv210eja
+D => 01/06/2023 13:10:56 -> user1 disconnected from 127.0.0.1
+C => 01/06/2023 13:11:02 -> admin1 logged in from 127.0.0.1 with session : va1rcim5v8uctjtnrcuv210eja

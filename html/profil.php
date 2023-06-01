@@ -41,9 +41,9 @@ $data = $_SESSION['userdata']
     </form>
     <p style="text-align: left;">
     <?php 
-      foreach($_SESSION['userdata'] as $key=>$value) {
-        echo $key . " => " . $value . "<br>";
-      }
+      //foreach($_SESSION['userdata'] as $key=>$value) {
+      //  echo $key . " => " . $value . "<br>";
+      //}
     ?>
     </p>
     <footer><?php footer() ?></footer>

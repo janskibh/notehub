@@ -12,6 +12,8 @@ if (isset($_POST['usercas']) && isset($_POST['passcas']) && isset($_POST['submit
 		}
 		mysqli_query($con, "UPDATE utilisateurs SET usercas = '" . $_POST['usercas'] . "' WHERE ID = " . $_SESSION['userdata']['ID']);
         mysqli_query($con, "UPDATE utilisateurs SET passcas = '" . $_POST['passcas'] . "' WHERE ID = " . $_SESSION['userdata']['ID']);
+        $_SESSION['userdata']['usercas'] = $_POST['usercas'];
+        $_SESSION['userdata']['passcas'] = $_POST['passcas'];
         mysqli_close($con);
         header("Location: profil.php");
     }
