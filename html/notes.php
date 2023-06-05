@@ -144,7 +144,6 @@ $data = $_SESSION['userdata'];
     </nav>
     <h1>Notes</h1>
     <?php 
-      echo $_SESSION['usercas'] . " : " . $_SESSION['passcas']; 
       die("En construction");
     ?>
     <div id="sem_links">

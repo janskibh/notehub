@@ -47,11 +47,10 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 				$_SESSION['userdata'][$key] = $value;
 			}
 
-			$ivhex = $_SESSION['userdata']['iv'];
-			$iv = hex2bin($ivHex);
+			$iv = hex2bin($_SESSION['userdata']['iv']);
 
-			$usercaschiffre = $_SESSION['userdata']['usercas'];
-			$passcaschiffre = $_SESSION['userdata']['passcas'];
+			$usercaschiffre = base64_decode($_SESSION['userdata']['usercas']);
+			$passcaschiffre = base64_decode($_SESSION['userdata']['passcas']);
 
 			$_SESSION['usercas'] = openssl_decrypt($usercaschiffre, 'aes-256-cbc', $password, 0, $iv);
 			$_SESSION['passcas'] = openssl_decrypt($passcaschiffre, 'aes-256-cbc', $password, 0, $iv);
