@@ -41,25 +41,21 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 	} else if ($password != $password2){
 		$error = "Les mots de passe ne correspondent pas";
     } else {
-		if (!mysqli_connect_errno()) {
-			$check = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
-			if (mysqli_num_rows($check) == 0) {
-				mysqli_query($con, "INSERT INTO utilisateurs (username, password, statut) VALUES ('" . $username . "', '" . md5($password) . "', 1)");
+		$check = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
+		if (mysqli_num_rows($check) == 0) {
+			mysqli_query($con, "INSERT INTO utilisateurs (username, password, verified, admin) VALUES ('" . $username . "', '" . md5($password) . "', 0, 0)");
 
-				$now = getdate();
-				$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
-				addlog($log_data);
+			$now = getdate();
+			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
+			addlog($log_data);
 
-				$_SESSION['password'] = $password;
-				$_SESSION['username'] = $username;
+			$_SESSION['password'] = $password;
+			$_SESSION['username'] = $username;
 
-				header("Location: login.php");
-				exit();
-			} else {
-				$error = "Le nom d'utilisateur existe déja";
-			}
+			header("Location: login.php");
+			exit();
 		} else {
-			$error =  "Erreur connexion à la BDD : " . mysqli_connect_error();
+			$error = "Le nom d'utilisateur existe déja";
 		}
 
 	}
