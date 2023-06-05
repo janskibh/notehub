@@ -52,7 +52,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			$usercaschiffre = base64_decode($_SESSION['userdata']['usercas']);
 			$passcaschiffre = base64_decode($_SESSION['userdata']['passcas']);
 
-			if (!empty($iv) && !empty($usercaschiffre) && !empty($passcaschiffre)) {
+			if (isset($iv) && isset($usercaschiffre) && isset($passcaschiffre)) {
 				$_SESSION['usercas'] = openssl_decrypt($usercaschiffre, 'aes-256-cbc', $password, 0, $iv);
 				$_SESSION['passcas'] = openssl_decrypt($passcaschiffre, 'aes-256-cbc', $password, 0, $iv);
 			} else {
@@ -64,6 +64,8 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " logged in from " . $_SERVER['REMOTE_ADDR'] . " with session : " . session_id() . "\n";
 			addlog($log_data);
 
+			mysqli_close($con);
+
 			if (isset($_GET["page"])) {
 				header("Location: " . $_GET["page"]);
 				exit();
@@ -71,7 +73,6 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 				header("Location: index.php");
 				exit();
 			}
-			mysqli_close($con);
 		} else {
 			$now = getdate();
 			$log_data = "F => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " tried to log in from " . $_SERVER['REMOTE_ADDR'] . " wrong password : " . $password . "\n";
