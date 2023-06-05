@@ -144,7 +144,7 @@ $userdata = $_SESSION['userdata'];
     </nav>
     <h1>Notes</h1>
     <?php 
-    if (empty($_SESSION['usercas']) || empty($_SESSION['passcas'])) {
+    if ($_SESSION['userdata']['verified'] == 0) {
       die("Identifiants CAS non renseignés dans la page profil");
     } else if (!isset($_SESSION['notedata'])) {
       $_SESSION['notedata'] = authcas($_SESSION['usercas'], $_SESSION['passcas']);
