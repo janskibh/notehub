@@ -28,6 +28,8 @@ if (!isset($_SESSION['config'])) {
 	$config = $_SESSION['config'];
 }
 
+include '../include/connect.php';
+
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['submit'])) {
     $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars($_POST['password'], ENT_QUOTES, 'UTF-8');
@@ -39,8 +41,6 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 	} else if ($password != $password2){
 		$error = "Les mots de passe ne correspondent pas";
     } else {
-		$con = mysqli_connect("127.0.0.1","root",$config->bdd,"notehub");
-		// Check connection
 		if (!mysqli_connect_errno()) {
 			$check = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
 			if (mysqli_num_rows($check) == 0) {
