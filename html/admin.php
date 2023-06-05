@@ -90,7 +90,7 @@ include '../include/functions.php';
 		?>
 	</table>
 	<table>
-		<tr><th colspan="2">Gedtion des admins</th></tr>
+		<tr><th colspan="2">Gestion des admins</th></tr>
 		<tr><th>Admins</th><th></th></tr>
 		<?php
 			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 1");

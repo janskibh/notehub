@@ -9,24 +9,18 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     exit();
 }
 include '../include/functions.php';
+include '../include/connect.php';
 
-// Connexion à la base de données
-$conn = mysqli_connect('localhost', 'root', '2823STdg', 'notehub'); // Remplacez 'nom_utilisateur' et 'mot_de_passe' par vos identifiants de connexion à la base de données
-
-// Vérification de la connexion
-if (!$conn) {
-    die('Erreur de connexion à la base de données : ' . mysqli_connect_error());
-}
 
 // Requête SQL pour récupérer les devoirs triés par date croissante
 $sql = "SELECT * FROM devoirs ORDER BY date ASC";
 
 // Exécution de la requête
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query($con, $sql);
 
 // Vérification des résultats de la requête
 if (!$result) {
-    die('Erreur lors de l\'exécution de la requête : ' . mysqli_error($conn));
+    die('Erreur lors de l\'exécution de la requête : ' . mysqli_error($con));
 }
 
 
@@ -58,7 +52,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 
 // Fermeture de la connexion à la base de données
-mysqli_close($conn);
+mysqli_close($con);
 ?>
 
 
