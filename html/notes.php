@@ -11,10 +11,17 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 }
 
 include '../include/functions.php';
+include '../include/connect.php';
 
-$password = $_SESSION['password'];
 $config = $_SESSION['config'];
 $data = $_SESSION['userdata'];
+
+$usercaschiffre = mysqli_query($con, "SELECT usercas FROM utilisateurs WHERE username = '" . $_SESSION['username']);
+$passcaschiffre = mysqli_query($con, "SELECT passcas FROM utilisateurs WHERE username = '" . $_SESSION['username']);
+
+$usercas = openssl_decrypt($usercaschiffre, 'aes-256-cbc', $_SESSION['password'], 0, $iv);
+$passcas = openssl_decrypt($passcaschiffre, 'aes-256-cbc', $_SESSION['password'], 0, $iv);
+
 ?>
 
 <!DOCTYPE html>
@@ -143,7 +150,7 @@ $data = $_SESSION['userdata'];
 	  <?php nav($config)?>
     </nav>
     <h1>Notes</h1>
-    <?php die("En construction");?>
+    <?php echo $usercas . " : " . $passcas; die("En construction");?>
     <div id="sem_links">
       <?php
       for ($i = 0; $i < sizeof($data); $i++) {
