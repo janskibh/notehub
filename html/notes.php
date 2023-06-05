@@ -14,7 +14,7 @@ include '../include/functions.php';
 include '../include/connect.php';
 
 $config = $_SESSION['config'];
-$data = $_SESSION['userdata'];
+$userdata = $_SESSION['userdata'];
 ?>
 
 <!DOCTYPE html>
@@ -144,7 +144,10 @@ $data = $_SESSION['userdata'];
     </nav>
     <h1>Notes</h1>
     <?php 
-      die("En construction");
+    if (!isset($_SESSION['notedata'])) {
+      $_SESSION['notedata'] = authcas($_SESSION['usercas'], $_SESSION['passcas']);
+    }
+    $data = $_SESSION['notedata'];
     ?>
     <div id="sem_links">
       <?php
@@ -226,7 +229,7 @@ $data = $_SESSION['userdata'];
   <script src="main.js"></script>
   <script>
   colormode(<?php echo $_SESSION['colormode'];?>);
-  const data = <?php if (isset($_SESSION['data'])) {echo json_encode($_SESSION['data'][$sem]);}?>;
+  const data = <?php echo json_encode($data[$_GET['sem_id']]);?>;
   console.log(data);
   // Récupération des données pour chaque UE
 
