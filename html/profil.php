@@ -33,7 +33,7 @@ $data = $_SESSION['userdata']
     <nav>
 	<?php nav($config);?>
     </nav>
-    <h1>Etudiant</h1>
+    <h1><?php echo $_SESSION['username']; echo $_SESSION['userdata']['verified'] == 1 ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="50px" style="margin-left: 20px;"/>' : ""?></h1>
     <form action="addcas.php" method="post">
       <input type="text" name="usercas" value="<?php echo isset($_SESSION['usercas']) ? $_SESSION['usercas'] : "";?>" placeholder="Identifiant CAS" style="grid-column: 1 / 3; grid-row: 1"></input>
       <input type="password" name="passcas" value="<?php echo isset($_SESSION['passcas']) ? $_SESSION['passcas'] : "";?>" placeholder="Mot de passe CAS" style="grid-column: 1 / 3; grid-row: 2"></input>
