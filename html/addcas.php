@@ -15,10 +15,17 @@ if (isset($_POST['usercas']) && isset($_POST['passcas']) && isset($_POST['submit
 
 		mysqli_query($con, "UPDATE utilisateurs SET usercas = '" . base64_encode($usercaschiffre) . "' WHERE ID = " . $_SESSION['userdata']['ID']);
         mysqli_query($con, "UPDATE utilisateurs SET passcas = '" . base64_encode($passcaschiffre) . "' WHERE ID = " . $_SESSION['userdata']['ID']);
+        mysqli_query($con, "UPDATE utilisateurs SET iv = '" . bin2hex($iv) . "' WHERE ID = " . $_SESSION['userdata']['ID']);
         $_SESSION['userdata']['usercas'] = $_POST['usercas'];
         $_SESSION['userdata']['passcas'] = $_POST['passcas'];
         mysqli_close($con);
-        header("Location: profil.php");
+    } else {
+        mysqli_query($con, "UPDATE utilisateurs SET usercas = '' WHERE ID = " . $_SESSION['userdata']['ID']);
+        mysqli_query($con, "UPDATE utilisateurs SET passcas = '' WHERE ID = " . $_SESSION['userdata']['ID']);
+        $_SESSION['userdata']['usercas'] = $_POST['usercas'];
+        $_SESSION['userdata']['passcas'] = $_POST['passcas'];
+        mysqli_close($con);
     }
 }
+header("Location: profil.php");
 ?>

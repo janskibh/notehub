@@ -35,8 +35,8 @@ $data = $_SESSION['userdata']
     </nav>
     <h1>Etudiant</h1>
     <form action="addcas.php" method="post">
-      <input type="text" name="usercas" value="<?php echo isset($data['usercas']) ? $data['usercas'] : "";?>" placeholder="Identifiant CAS" style="grid-column: 1 / 3; grid-row: 1"></input>
-      <input type="password" name="passcas" value="<?php echo isset($data['passcas']) ? $data['passcas'] : "";?>" placeholder="Mot de passe CAS" style="grid-column: 1 / 3; grid-row: 2"></input>
+      <input type="text" name="usercas" value="<?php echo isset($_SESSION['usercas']) ? $_SESSION['usercas'] : "";?>" placeholder="Identifiant CAS" style="grid-column: 1 / 3; grid-row: 1"></input>
+      <input type="password" name="passcas" value="<?php echo isset($_SESSION['passcas']) ? $_SESSION['passcas'] : "";?>" placeholder="Mot de passe CAS" style="grid-column: 1 / 3; grid-row: 2"></input>
       <input type="submit" name="submit" value="Valider" style="grid-column: 2; grid-row: 3">
     </form>
     <p style="text-align: left;">
