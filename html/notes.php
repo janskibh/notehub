@@ -16,6 +16,8 @@ include '../include/connect.php';
 $config = $_SESSION['config'];
 $data = $_SESSION['userdata'];
 
+$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+
 $usercaschiffre = mysqli_query($con, "SELECT usercas FROM utilisateurs WHERE username = '" . $_SESSION['username']);
 $passcaschiffre = mysqli_query($con, "SELECT passcas FROM utilisateurs WHERE username = '" . $_SESSION['username']);
 
