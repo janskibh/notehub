@@ -52,8 +52,13 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			$usercaschiffre = base64_decode($_SESSION['userdata']['usercas']);
 			$passcaschiffre = base64_decode($_SESSION['userdata']['passcas']);
 
-			$_SESSION['usercas'] = openssl_decrypt($usercaschiffre, 'aes-256-cbc', $password, 0, $iv);
-			$_SESSION['passcas'] = openssl_decrypt($passcaschiffre, 'aes-256-cbc', $password, 0, $iv);
+			if (!empty($iv) && !empty($usercaschiffre) && !empty($passcaschiffre)) {
+				$_SESSION['usercas'] = openssl_decrypt($usercaschiffre, 'aes-256-cbc', $password, 0, $iv);
+				$_SESSION['passcas'] = openssl_decrypt($passcaschiffre, 'aes-256-cbc', $password, 0, $iv);
+			} else {
+				$_SESSION['usercas'] = "";
+				$_SESSION['passcas'] = "";
+			}
 
 			$now = getdate();
 			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " logged in from " . $_SERVER['REMOTE_ADDR'] . " with session : " . session_id() . "\n";
