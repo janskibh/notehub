@@ -36,6 +36,14 @@ if (isset($_POST['popuser']) && isset($_POST['userid']) && !empty($_POST['userid
 	$erreur = "Utilisateur supprimé";
 }
 
+if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['submit'])) {
+	if(mysqli_query($con, "INSERT INTO devoirs (`prof`, `contenu`, `ressource`, `date`) VALUES ('" . $_POST['prof'] . "','" . $_POST['contenu'] . "','" . $_POST['ressource'] . "', '" . $_POST['date'] . "')" )) {
+		$erreur = "Devoir ajouté";
+	} else {
+		$erreur = "Erreur : " . mysqli_error($con);
+	}
+}
+
 include '../include/functions.php';
 ?>
 
@@ -109,6 +117,29 @@ include '../include/functions.php';
 		?>
 		<tr><th>Ajouter un admin</th><th></th></tr>
 		<tr><form action="" method="post"><td><input type='text' name='username' placeholder='username' style='font-size: 20px;'></td><td><input type='submit' name='addadmin' value='ajouter'></td></form></tr>
+	</table>
+
+	<table>
+	<form action="" method="post">
+		<?php
+			$profs = mysqli_query($con, "SELECT * FROM profs");
+			$ressources = mysqli_query($con, "SELECT * FROM ressources");
+		?>
+		<tr><th colspan="3">Devoirs</th></tr>
+		<tr><th>
+			<select name="prof">
+			<?php if (mysqli_num_rows($profs) > 0) { foreach($profs as $prof) { echo "<option value='" . $prof['ID'] . "'>" . $prof['nom'] . "</option>"; }}?>
+			</select>
+		</th></tr>
+		<tr><th>
+			<select name="ressource">
+			<?php if (mysqli_num_rows($ressources) > 0) { foreach($ressources as $ressource) { echo "<option value='" . $ressource['ID'] . "'>R " . $ressource['code'] . " - " . $ressource['nom'] . "</option>"; }}?>
+			</select>
+		</th></tr>
+		<tr><th><input type="date" name="date"></th></tr>
+		<tr><th><input type="text" name="contenu" placeholder="contenu"/></th></tr>
+		<tr><th><input type="submit" name="submit" value="valider"></th></tr>
+	</form>
 	</table>
   <footer><?php footer()?></footer>
   </body>
