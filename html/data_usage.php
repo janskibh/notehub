@@ -3,7 +3,8 @@ session_start();
 if (isset($_SESSION['status'])) {
 	$loggedin = 1;
 }
-include 'functions.php';
+include '../include/config.php';
+include '../include/functions.php';
 ?>
 
 <!DOCTYPE html>

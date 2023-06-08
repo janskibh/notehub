@@ -10,24 +10,14 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
     exit();
 }
 
-include '../include/functions.php';
-
 $error = "";
 
 if (!isset($_SESSION['colormode'])) {
 	$_SESSION['colormode'] = 0;
 }
 
-if (!isset($_SESSION['config'])) {
-	$config_location = "../config/notehub.json";
-	$config_file = fopen($config_location, "r") or die("Config Error");
-	$config = json_decode(fread($config_file,filesize($config_location)));
-	fclose($config_file);
-	$_SESSION['config'] = $config;
-} else {
-	$config = $_SESSION['config'];
-}
-
+include '../include/config.php';
+include '../include/functions.php';
 include '../include/connect.php';
 
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['submit'])) {
@@ -87,14 +77,14 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title><?php echo $config->title?></title>
+    <title><?php echo $title?></title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <meta property="og:image" content="https://notehub.e59.fr/img/notehub.png"/>
-    <meta property="og:description" content=<?php echo "'$config->description'";?>/>
+    <meta property="og:description" content=<?php echo "'$description'";?>/>
     <meta property="og:url" content="https://notehub.e59.fr/"/>
-    <meta property="og:title" content=<?php echo "'$config->title'";?>/>
+    <meta property="og:title" content=<?php echo "'$title'";?>/>
     <meta name="theme-color" data-react-helmet="true" content="#000000"/>
 </head>
   <body>

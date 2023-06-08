@@ -4,6 +4,7 @@ if (!isset($_SESSION['userdata'])) {
     die("Casse toi de la !!");
 }
 
+include '../include/config.php';
 include '../include/connect.php';
 
 if (isset($_POST['usercas']) && isset($_POST['passcas']) && isset($_POST['submit'])) {

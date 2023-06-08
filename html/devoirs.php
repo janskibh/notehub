@@ -8,6 +8,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     header("Location: login.php?page=" . $_SERVER['REQUEST_URI']);
     exit();
 }
+include '../include/config.php';
 include '../include/functions.php';
 include '../include/connect.php';
 
@@ -23,15 +24,13 @@ if (!$result) {
     die('Erreur lors de l\'exécution de la requête : ' . mysqli_error($con));
 }
 
-
-$config = $_SESSION['config'];
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title><?php echo $config->title?></title>
+    <title><?php echo $title?></title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
@@ -39,7 +38,7 @@ $config = $_SESSION['config'];
   </head>
   <body>
     <nav>
-	<?php nav($config)?>
+	<?php nav($pages)?>
     </nav>
     <h1>Liste des devoirs</h1>
 

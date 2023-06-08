@@ -9,7 +9,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
   exit();
 }
 
-$config = $_SESSION['config'];
+include '../include/config.php';
 include '../include/functions.php';
 
 ?>
@@ -18,7 +18,7 @@ include '../include/functions.php';
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title><?php echo $config->title ?></title>
+    <title><?php echo $title ?></title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
@@ -26,7 +26,7 @@ include '../include/functions.php';
 </head>
   	<body>
 		<nav>
-		<?php nav($config)?>
+		<?php nav($pages)?>
 		</nav>
 		<h1>Bienvenue sur Notehub</h1>
 		<p>Le site est en construction mais les pages <a href="notes.php?sem_id=0">Notes</a> et <a href="profil.php" >Profil</a> sont accessibles.<br><br>

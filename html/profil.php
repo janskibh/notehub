@@ -10,11 +10,11 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     exit();
 }
 
+include '../include/config.php';
 include '../include/functions.php';
 
 $username = $_SESSION['username'];
 $password = $_SESSION['password'];
-$config = $_SESSION['config'];
 
 $data = $_SESSION['userdata']
 ?>
@@ -23,7 +23,7 @@ $data = $_SESSION['userdata']
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title><?php echo $config->title ?></title>
+    <title><?php echo $title ?></title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
@@ -31,7 +31,7 @@ $data = $_SESSION['userdata']
   </head>
   <body>
     <nav>
-	<?php nav($config);?>
+	<?php nav($pages);?>
     </nav>
     <h1><?php echo $_SESSION['username']; echo $_SESSION['userdata']['verified'] == 1 ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="50px" style="margin-left: 20px;"/>' : ""?></h1>
     <form action="addcas.php" method="post">

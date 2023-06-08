@@ -3,6 +3,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+include '../include/config.php';
+
 session_start();
 if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     header("Location: login.php");
@@ -34,7 +36,6 @@ if (isset($_POST['popuser']) && isset($_POST['userid']) && !empty($_POST['userid
 	$erreur = "Utilisateur supprimé";
 }
 
-$config = $_SESSION['config'];
 include '../include/functions.php';
 ?>
 
@@ -42,7 +43,7 @@ include '../include/functions.php';
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title><?php echo $config->title?></title>
+    <title><?php echo $title?></title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
@@ -55,7 +56,7 @@ include '../include/functions.php';
   </head>
   <body>
     <nav>
-	<?php nav($config);?>
+	<?php nav($pages);?>
     </nav>
     <h1>Admin</h1>
 	<?php echo isset($erreur) ? $erreur : "" ?>
@@ -70,7 +71,7 @@ include '../include/functions.php';
 	<table style="width: 60%">
 	<tr><th>Logs</th></tr>
     	<?php
-		$logs = file($config->log_dir . "/notehub.log", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+		$logs = file($log_dir . "/notehub.log", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		$logs_lines = array_slice($logs, -10);
 		for (end($logs_lines); key($logs_lines)!==null; prev($logs_lines)) {
 			echo "<tr><td>" . current($logs_lines) . "</td></tr>";

@@ -81,15 +81,15 @@
         echo $_SESSION['userdata']['admin'] == 1 ? '<a href="admin.php">Admin</a>' : '';
         echo "<hr>&copy; 2023 Jan BELLON | Club Réseaux | IUT de Vélizy";
     }
-    function nav($config) {
+    function nav($pages) {
         echo '<a href="index.php"><img src="./img/notehub' . $_SESSION['colormode'] . '.png" id="notehub-icon"/></a>';
-        foreach($config->pages as $key => $value) {
+        foreach($pages as $key => $value) {
             echo '<a href="' . $value . '" class="navlink">' . $key . '</a>';
         };
         echo '<a href="logout.php" class="navlink" style="color: #FE2424">Deconnexion</a>';
     }
     function addlog($log_data) {
-        $log_file = fopen($_SESSION['config']->log_dir . "/notehub.log", "a") or die("Log Error");
+        $log_file = fopen($log_dir . "/notehub.log", "a") or die("Log Error");
 		fwrite($log_file, $log_data);
 		fclose($log_file);
     }

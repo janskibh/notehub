@@ -10,10 +10,10 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     exit();
 }
 
-include '../include/functions.php';
+include '../include/config.php';
 include '../include/connect.php';
+include '../include/functions.php';
 
-$config = $_SESSION['config'];
 $userdata = $_SESSION['userdata'];
 ?>
 
@@ -21,7 +21,7 @@ $userdata = $_SESSION['userdata'];
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title><?php echo $config->title;?></title>
+    <title><?php echo $title;?></title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
@@ -140,7 +140,7 @@ $userdata = $_SESSION['userdata'];
   </style>
   <body>
     <nav>
-	  <?php nav($config)?>
+	  <?php nav($pages)?>
     </nav>
     <h1>Notes</h1>
     <?php 
