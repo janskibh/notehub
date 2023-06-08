@@ -52,7 +52,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 
 			$now = getdate();
 			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " logged in from " . $_SERVER['REMOTE_ADDR'] . " with session : " . session_id() . "\n";
-			addlog($log_data);
+			addlog($log_data, $log_dir);
 
 			mysqli_close($con);
 

@@ -38,8 +38,8 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			mysqli_query($con, "INSERT INTO utilisateurs (username, password, verified, admin) VALUES ('" . $username . "', '" . md5($password) . "', 0, 0)");
 
 			$now = getdate();
-			$log_data = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
-			addlog($log_data);
+			$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
+			addlog($log, $log_dir);
 
 			$_SESSION['password'] = $password;
 			$_SESSION['username'] = $username;
