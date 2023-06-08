@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 -- Database: `notehub`
 --
 
+CREATE Database IF NOT EXISTS notehub;
+USE notehub;
 -- --------------------------------------------------------
 
 --
@@ -178,7 +180,7 @@ INSERT INTO `ressources` (`ID`, `semestre`, `nom`, `code`) VALUES
 (4, 1, 'Réseaux locaux', 104),
 (6, 1, 'Systèmes numériques', 106),
 (7, 1, 'Programmation', 107),
-(8, 1, 'Système d\'exploitation', 108),
+(8, 1, 'Système d\exploitation', 108),
 (9, 1, 'Technologies WEB', 109),
 (10, 1, 'Anglais S1', 110),
 (11, 1, 'ECCP S1', 111),
