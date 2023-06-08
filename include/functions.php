@@ -88,9 +88,9 @@
         };
         echo '<a href="logout.php" class="navlink" style="color: #FE2424">Deconnexion</a>';
     }
-    function addlog($log_data, $log_dir) {
+    function addlog($log, $log_dir) {
         $log_file = fopen($log_dir . "/notehub.log", "a") or die("Log Error");
-		fwrite($log_file, $log_data);
+		fwrite($log_file, $log);
 		fclose($log_file);
     }
 ?>

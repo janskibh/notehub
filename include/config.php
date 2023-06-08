@@ -6,7 +6,6 @@ $pages = array();
 $pages['Notes'] = "notes.php?sem_id=0";
 $pages['Profil'] = "profil.php";
 $pages['Devoirs'] = "devoirs.php";
-$pages['Notes'] = "notes.php";
 $log_dir = "../log";
 $bdd = "2823STdg";
 ?>
