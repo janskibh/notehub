@@ -83,7 +83,7 @@ CREATE TABLE `devoirs` (
 --
 
 INSERT INTO `devoirs` (`ID`, `prof`, `contenu`, `ressource`, `date`) VALUES
-(1, 1, 'Faire la triple intégrale des identités remarquebles de la dérifation de la fonction tierce.', 114, '2023-05-21 00:00:00');
+(1, 1, 'Faire la triple intégrale des identités remarquebles de la dérifation de la fonction tierce.', 14, '2023-05-21 00:00:00');
 
 -- --------------------------------------------------------
 
