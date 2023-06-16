@@ -14,7 +14,7 @@ include '../include/connect.php';
 
 
 // Requête SQL pour récupérer les devoirs triés par date croissante
-$sql = "SELECT * FROM devoirs ORDER BY date ASC";
+$sql = "SELECT d.date as date, d.contenu as contenu, p.nom as nomProf, r.nom as nomRessource FROM devoirs d, profs p, ressources r WHERE d.prof = p.ID AND d.ressource = r.ID ORDER BY date ASC";
 
 // Exécution de la requête
 $result = mysqli_query($con, $sql);
@@ -47,6 +47,8 @@ if (!$result) {
 while ($row = mysqli_fetch_assoc($result)) {
     echo '<p>Date : ' . $row['date'] . '</p>';
     echo '<p>Contenu : ' . $row['contenu'] . '</p>';
+    echo '<p>Prof: ' . $row['nomProf'] . '</p>';
+    echo '<p>Ressource: ' . $row['nomRessource'] . '</p>';
     echo '<hr>';
 }
 
