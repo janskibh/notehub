@@ -23,7 +23,7 @@ if (isset($_POST['groupe']) && !empty($_POST['groupe'])) {
 	}
 }
 
-if (isset($_POST['ppurl']) && !empty($_POST['ppurl'])) {
+if (isset($_POST['ppurl'])) {
   if(mysqli_query($con, "UPDATE utilisateurs SET pp_url = '" . $_POST['ppurl'] . "' WHERE ID = '" . $_SESSION['userdata']['ID'] ."'" ) != false) {
     $_SESSION['userdata']['pp_url'] = $_POST['ppurl'];
 		$erreur = "PP modifiée";
