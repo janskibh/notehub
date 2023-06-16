@@ -45,11 +45,12 @@ if (!$result) {
 <?php
 // Affichage des devoirs
 while ($row = mysqli_fetch_assoc($result)) {
-    echo '<p>Date : ' . $row['date'] . '</p>';
-    echo '<p>Contenu : ' . $row['contenu'] . '</p>';
-    echo '<p>Prof: ' . $row['nomProf'] . '</p>';
-    echo '<p>Ressource: ' . $row['nomRessource'] . '</p>';
-    echo '<hr>';
+    echo '<table>';
+    echo '<tr><th colspan=2>' . $row['nomRessource'] . '</th></tr>';
+    echo '<tr><td>Date</td><td>' . $row['date'] . '</td></tr>';
+    echo '<tr><td>Contenu</td><td>' . $row['contenu'] . '</td></tr>';
+    echo '<tr><td>Prof</td><td>' . $row['nomProf'] . '</td></tr>';
+    echo '</table>';
 }
 
 // Fermeture de la connexion à la base de données
