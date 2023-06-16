@@ -44,7 +44,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			$_SESSION['password'] = $password;
 			$_SESSION['username'] = $username;
 
-			header("Location: login.php");
+			header("Location: logout.php");
 			exit();
 		} else {
 			$error = "Le nom d'utilisateur existe déja";
