@@ -40,8 +40,9 @@ if (isset($_POST['popuser']) && isset($_POST['userid']) && !empty($_POST['userid
 if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['submit'])) {
 	if(mysqli_query($con, "INSERT INTO devoirs (`prof`, `contenu`, `ressource`, `date`) VALUES ('" . $_POST['prof'] . "','" . $_POST['contenu'] . "','" . $_POST['ressource'] . "', '" . $_POST['date'] . "')" )) {
 		$erreur = "Devoir ajouté";
+		$now = getdate();
 		$log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " added a homework (" . $_POST['ressource'] . ")\n";
-		addlog($log);
+		addlog($log, $log_dir);
 	} else {
 		$erreur = "Erreur : " . mysqli_error($con);
 	}
