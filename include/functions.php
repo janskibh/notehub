@@ -87,6 +87,10 @@
             echo '<a href="' . $value . '" class="navlink">' . $key . '</a>';
         };
         echo '<a href="logout.php" class="navlink" style="color: #FE2424">Deconnexion</a>';
+        // lien vers profil
+        echo '<a href="profil.php"><img src="';
+        echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : 'img/default_pp.jpg';
+        echo '" height="50px" style="border-radius: 25px; position:absolute; right: 20px; top: 5px"/></a>';
     }
     function addlog($log, $log_dir) {
         $log_file = fopen($log_dir . "/notehub.log", "a") or die("Log Error");
