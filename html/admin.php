@@ -4,6 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include '../include/config.php';
+include '../include/functions.php';
 
 session_start();
 if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
@@ -45,8 +46,6 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 		$erreur = "Erreur : " . mysqli_error($con);
 	}
 }
-
-include '../include/functions.php';
 ?>
 
 <!DOCTYPE html>
