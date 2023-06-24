@@ -34,6 +34,15 @@ function ressourceChart(ue, name) {
     labels.push([`${data.relevé.ressources[ressource].titre} (${ue.ressources[ressource].coef})`]);
     colors.push(palette[Math.round(parseInt(moyenne))]);
   }
+  for (const sae in ue.saes) {
+    var moyenne = ue.saes[sae].moyenne
+    if (moyenne == "~") {
+      moyenne = "0";
+    }
+    moyennes.push(moyenne);
+    labels.push([`${data.relevé.saes[sae].titre} (${ue.saes[sae].coef})`]);
+    colors.push(palette[Math.round(parseInt(moyenne))]);
+  }
 
   // Options pour le graphe
   const options = {
