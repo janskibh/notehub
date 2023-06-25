@@ -1,4 +1,4 @@
-/!\ Avant d'installer notehub n'oubliez pas de modifier la valeur de $dbpass dans include/config.php par le mot de passe de votre base de données
+/!\ Avant d'utiliser notehub n'oubliez pas de modifier la valeur de $dbpass dans include/config.php par le mot de passe de votre base de données
 
 # Notehub
 
