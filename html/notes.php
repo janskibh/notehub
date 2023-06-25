@@ -199,10 +199,10 @@ $userdata = $_SESSION['userdata'];
         $noteval = '<td style="color: ' . $colors[3] . '">' . $eval->note->value . '</td>';
       } else if (floatval($eval->note->value) == floatval($eval->note->moy)){
         $noteval = '<td style="color: ' . $colors[2] . '">' . $eval->note->value . '</td>';
-      } else if (floatval($eval->note->value) < floatval($eval->note->moy)){
-        $noteval = '<td style="color: ' . $colors[1] . '">' . $eval->note->value . '</td>';
       } else if (floatval($eval->note->value) == floatval($eval->note->min)){
         $noteval = '<td style="color: ' . $colors[0] . '">' . $eval->note->value . '</td>';
+      } else if (floatval($eval->note->value) < floatval($eval->note->moy)){
+        $noteval = '<td style="color: ' . $colors[1] . '">' . $eval->note->value . '</td>';
       } else {
         $noteval = '<td>' . $eval->note->value . '</td>';
       }
