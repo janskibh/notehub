@@ -181,6 +181,26 @@ $userdata = $_SESSION['userdata'];
 		    1 => array("#C90000", "#D06F00", "#CAB000", "#06B800", "#00BF8F")
       );
       $colors = $allcolors[$_SESSION['colormode']];
+      echo "<table>";
+      if ($sem_data->relevé->semestre->notes->value == "~") {
+           $noteval = '<td style="color: #888888">' . $sem_data->relevé->semestre->notes->value . '</td>';
+      } else if (floatval($sem_data->relevé->semestre->notes->value) == floatval($sem_data->relevé->semestre->notes->max)){
+           $noteval = '<td style="color: ' . $colors[4] . '">' . $sem_data->relevé->semestre->notes->value . '</td>';
+      } else if (floatval($sem_data->relevé->semestre->notes->value) > floatval($sem_data->relevé->semestre->notes->moy)){
+           $noteval = '<td style="color: ' . $colors[3] . '">' . $sem_data->relevé->semestre->notes->value . '</td>';
+      } else if (floatval($sem_data->relevé->semestre->notes->value) == floatval($sem_data->relevé->semestre->notes->moy)){
+           $noteval = '<td style="color: ' . $colors[2] . '">' . $sem_data->relevé->semestre->notes->value . '</td>';
+      } else if (floatval($sem_data->relevé->semestre->notes->value) == floatval($sem_data->relevé->semestre->notes->min)){
+          $noteval = '<td style="color: ' . $colors[0] . '">' . $sem_data->relevé->semestre->notes->value . '</td>';
+      } else if (floatval($sem_data->relevé->semestre->notes->value) < floatval($sem_data->relevé->semestre->notes->moy)){
+           $noteval = '<td style="color: ' . $colors[1] . '">' . $sem_data->relevé->semestre->notes->value . '</td>';
+      } else {
+           $noteval = '<td>' . $sem_data->relevé->semestre->notes->value . '</td>';
+      }
+
+      echo "<td>Moyenne Générale</td>" . $noteval . "<td><span style='color: " . $colors[0] . "'>" . $sem_data->relevé->semestre->notes->min . "</span> | <span style='color: " . $colors[2] . "'>" . $sem_data->relevé->semestre->notes->moy . "</span> | <span style='color: " . $colors[4] . "'>" . $sem_data->relevé->semestre->notes->max . "</span></td></tr>";
+
+      echo "</table>";
       foreach ($michel as $m) {
       foreach ($sem_data->relevé->$m as $ressource_key => $ressource) {
         echo "<table>";
