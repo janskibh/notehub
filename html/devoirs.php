@@ -14,15 +14,8 @@ include '../include/connect.php';
 
 
 // Requête SQL pour récupérer les devoirs triés par date croissante
-$sql = "SELECT d.date as date, d.contenu as contenu, p.nom as nomProf, r.nom as nomRessource FROM devoirs d, profs p, ressources r WHERE d.prof = p.ID AND d.ressource = r.ID ORDER BY date ASC";
 
-// Exécution de la requête
-$result = mysqli_query($con, $sql);
-
-// Vérification des résultats de la requête
-if (!$result) {
-    die('Erreur lors de l\'exécution de la requête : ' . mysqli_error($con));
-}
+$stmt = $pdo->query("SELECT d.date as date, d.contenu as contenu, p.nom as nomProf, r.nom as nomRessource FROM devoirs d, profs p, ressources r WHERE d.prof = p.ID AND d.ressource = r.ID ORDER BY date ASC");
 
 ?>
 
@@ -44,17 +37,17 @@ if (!$result) {
 
 <?php
 // Affichage des devoirs
-while ($row = mysqli_fetch_assoc($result)) {
+foreach($stmt as $devoir) {
     echo '<table>';
-    echo '<tr><th colspan=2>' . $row['nomRessource'] . '</th></tr>';
-    echo '<tr><td>Date</td><td>' . $row['date'] . '</td></tr>';
-    echo '<tr><td>Contenu</td><td>' . $row['contenu'] . '</td></tr>';
-    echo '<tr><td>Prof</td><td>' . $row['nomProf'] . '</td></tr>';
+    echo '<tr><th colspan="2">' . $devoir['nomRessource'] . '</th></tr>';
+    echo '<tr><td>Date</td><td>' . $devoir['date'] . '</td></tr>';
+    echo '<tr><td>Contenu</td><td>' . $devoir['contenu'] . '</td></tr>';
+    echo '<tr><td>Prof</td><td>' . $devoir['nomProf'] . '</td></tr>';
     echo '</table>';
 }
 
 // Fermeture de la connexion à la base de données
-mysqli_close($con);
+$pdo = null;
 ?>
 
 

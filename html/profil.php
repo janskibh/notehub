@@ -15,20 +15,24 @@ include '../include/functions.php';
 include '../include/connect.php';
 
 if (isset($_POST['groupe']) && !empty($_POST['groupe'])) {
-  if(mysqli_query($con, "UPDATE utilisateurs SET groupe = " . $_POST['groupe'] . " WHERE ID = '" . $_SESSION['userdata']['ID'] ."'" ) != false) {
+  $stmt = $pdo->prepare("UPDATE utilisateurs SET groupe = :groupe WHERE ID = '" . $_SESSION['userdata']['ID'] ."'");
+  $stmt->bindParam(':groupe', $_POST['groupe']);
+  if($stmt->execute()) {
     $_SESSION['userdata']['groupe'] = $_POST['groupe'];
 		$erreur = "Groupe modifié";
 	} else {
-		$erreur = "Erreur : " . mysqli_error($con);
+		$erreur = "Erreur : " . $stmt->errorInfo()[2];
 	}
 }
 
 if (isset($_POST['ppurl'])) {
-  if(mysqli_query($con, "UPDATE utilisateurs SET pp_url = '" . $_POST['ppurl'] . "' WHERE ID = '" . $_SESSION['userdata']['ID'] ."'" ) != false) {
+  $stmt = $pdo->prepare("UPDATE utilisateurs SET pp_url = :pp_url WHERE ID = '" . $_SESSION['userdata']['ID'] ."'");
+  $stmt->bindParam(':pp_url', $_POST['ppurl']);
+  if($stmt->execute()) {
     $_SESSION['userdata']['pp_url'] = $_POST['ppurl'];
 		$erreur = "PP modifiée";
 	} else {
-		$erreur = "Erreur : " . mysqli_error($con);
+		$erreur = "Erreur : " . $stmt->errorInfo()[2];
 	}
 }
 
@@ -67,9 +71,9 @@ $password = $_SESSION['password'];
     <form action="" method="post">
       <select name="groupe">
         <?php 
-          $groupes = mysqli_query($con, "SELECT * FROM groupes");
-          if (mysqli_num_rows($groupes) > 0) { 
-            foreach($groupes as $groupe) { 
+          $stmt = $pdo->query("SELECT * FROM groupes");
+          if ($stmt->rowCount() > 0) { 
+            foreach($stmt as $groupe) { 
               if ($groupe['ID'] == $_SESSION['userdata']['groupe']) {
                 echo "<option value='" . $groupe['ID'] . "' selected='selected'>". $groupe['nom'] . "</option>"; 
               } else {
@@ -88,7 +92,7 @@ $password = $_SESSION['password'];
     <tr><th colspan="2">Photo de profil</th></tr>
     <tr><td>
     <form action="" method="post">
-      <input type="text" value=<?php echo '"'; echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : ''; echo '"'?> placeholder="URL de l'image" name="ppurl"></input>
+      <input type="text" value="<?php echo isset($_SESSION['userdata']['pp_url']) ? $_SESSION['userdata']['pp_url'] : ''; ?>" placeholder="URL de l'image" name="ppurl"></input>
       </td><td><input type="submit" value="Valider"></input>
     </form></td></tr>
     </table>

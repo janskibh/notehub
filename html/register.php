@@ -33,19 +33,27 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 	} else if ($password != $password2){
 		$error = "Les mots de passe ne correspondent pas";
     } else {
-		$check = mysqli_query($con, "SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
-		if (mysqli_num_rows($check) == 0) {
-			mysqli_query($con, "INSERT INTO utilisateurs (username, password, verified, admin) VALUES ('" . $username . "', '" . md5($password) . "', 0, 0)");
+		$checkuser = $pdo->query("SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
+		if ($checkuser->numRows() == 0) {
+			$stmt = $pdo->prepare("INSERT INTO utilisateurs (username, password, verified, admin) VALUES (':username', ':password', :verified, :admin)");
+        	$stmt->bindParam(':username', $username);
+        	$stmt->bindParam(':password', md5($password));
+        	$stmt->bindParam(':verified', O);
+        	$stmt->bindParam(':admin', 0);
+        	if($stmt->execute()) {
+				$now = getdate();
+				$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
+				addlog($log, $log_dir);
 
-			$now = getdate();
-			$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
-			addlog($log, $log_dir);
+				$_SESSION['password'] = $password;
+				$_SESSION['username'] = $username;
 
-			$_SESSION['password'] = $password;
-			$_SESSION['username'] = $username;
-
-			header("Location: logout.php");
-			exit();
+				header("Location: logout.php");
+				exit();
+			} else {
+				echo "Erreur : " . $stmt->errorInfo()[2];
+			}
+			
 		} else {
 			$error = "Le nom d'utilisateur existe déja";
 		}

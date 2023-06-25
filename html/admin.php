@@ -11,41 +11,53 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
     header("Location: login.php");
     exit();
 }
-if ($_SESSION['userdata']['admin'] != 1){
-	http_response_code(403);
-	exit();
+if ($_SESSION['userdata']['admin'] != 1) {
+    http_response_code(403);
+    exit();
 }
 
 include '../include/connect.php';
 
 if (isset($_POST['popadmin']) && isset($_POST['adminid']) && !empty($_POST['adminid'])) {
-	mysqli_query($con, "UPDATE utilisateurs SET admin = 0 WHERE ID = " . $_POST['adminid']);
-	$erreur = "Utilisateur retiré des admins";
+    $stmt = $pdo->prepare("UPDATE utilisateurs SET admin = 0 WHERE ID = :adminid");
+    $stmt->bindParam(':adminid', $_POST['adminid']);
+    $stmt->execute();
+    $erreur = "Utilisateur retiré des admins";
 }
 
 if (isset($_POST['addadmin']) && isset($_POST['username']) && !empty($_POST['username'])) {
-	mysqli_query($con, "UPDATE utilisateurs SET admin = 1 WHERE username = '" . $_POST['username'] ."'");
-	if(mysqli_affected_rows($con) > 0 ) {
-		$erreur = $_POST['username'] . " a rejoint le groupe des admins";
-	} else {
-		$erreur = "Aucun admin ajouté";
-	}
+    $stmt = $pdo->prepare("UPDATE utilisateurs SET admin = 1 WHERE username = :username");
+    $stmt->bindParam(':username', $_POST['username']);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        $erreur = $_POST['username'] . " a rejoint le groupe des admins";
+    } else {
+        $erreur = "Aucun admin ajouté";
+    }
 }
 
 if (isset($_POST['popuser']) && isset($_POST['userid']) && !empty($_POST['userid'])) {
-	mysqli_query($con, "DELETE FROM utilisateurs WHERE ID = " . $_POST['userid']);
-	$erreur = "Utilisateur supprimé";
+    $stmt = $pdo->prepare("DELETE FROM utilisateurs WHERE ID = :userid");
+    $stmt->bindParam(':userid', $_POST['userid']);
+    $stmt->execute();
+    $erreur = "Utilisateur supprimé";
 }
 
 if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['submit'])) {
-	if(mysqli_query($con, "INSERT INTO devoirs (`prof`, `contenu`, `ressource`, `date`) VALUES ('" . $_POST['prof'] . "','" . $_POST['contenu'] . "','" . $_POST['ressource'] . "', '" . $_POST['date'] . "')" )) {
-		$erreur = "Devoir ajouté";
-		$now = getdate();
-		$log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " added a homework (" . $_POST['ressource'] . ")\n";
-		addlog($log, $log_dir);
-	} else {
-		$erreur = "Erreur : " . mysqli_error($con);
-	}
+    $stmt = $pdo->prepare("INSERT INTO devoirs (`prof`, `contenu`, `ressource`, `date`) VALUES (:prof, :contenu, :ressource, :date)");
+    $stmt->bindParam(':prof', $_POST['prof']);
+    $stmt->bindParam(':contenu', $_POST['contenu']);
+    $stmt->bindParam(':ressource', $_POST['ressource']);
+    $stmt->bindParam(':date', $_POST['date']);
+    if ($stmt->execute()) {
+        $erreur = "Devoir ajouté";
+        $now = getdate();
+        $log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " added a homework (" . $_POST['ressource'] . ")\n";
+        addlog($log, $log_dir);
+    } else {
+        $erreur = "Erreur : " . $stmt->errorInfo()[2];
+    }
 }
 ?>
 
@@ -92,9 +104,9 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 		<tr><th colspan="2">Gestion des utilisateurs</th></tr>
 		<tr><th>Utilisateurs</th><th></th></tr>
 		<?php
-			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 0");
-			if (mysqli_num_rows($result) > 0) {
-				foreach ($result as $user) {
+			$stmt = $pdo->query("SELECT * FROM utilisateurs WHERE admin = 0");
+			if ($stmt->rowCount() > 0) {
+				foreach ($stmt as $user) {
 					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popuser' value='supprimer'><input type='hidden' name='userid' value='" . $user['ID'] . "'</td></form></tr>";
 				}
 			}
@@ -104,9 +116,9 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 		<tr><th colspan="2">Gestion des admins</th></tr>
 		<tr><th>Admins</th><th></th></tr>
 		<?php
-			$result = mysqli_query($con, "SELECT * FROM utilisateurs WHERE admin = 1");
-			if (mysqli_num_rows($result) > 0) {
-				foreach ($result as $user) {
+			$stmt = $pdo->query("SELECT * FROM utilisateurs WHERE admin = 1");
+			if ($stmt->rowCount() > 0) {
+				foreach ($stmt as $user) {
 					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td>";
 					if ($user['username'] != $_SESSION['username']) {
 						echo "<td><input type='submit' name='popadmin' value='retirer'><input type='hidden' name='adminid' value='" . $user['ID'] . "'</td>";
@@ -124,18 +136,18 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 	<table>
 	<form action="" method="post">
 		<?php
-			$profs = mysqli_query($con, "SELECT * FROM profs");
-			$ressources = mysqli_query($con, "SELECT * FROM ressources");
+			$profs = $pdo->query("SELECT * FROM profs");
+			$ressources = $pdo->query("SELECT * FROM ressources");
 		?>
 		<tr><th colspan="3">Devoirs</th></tr>
 		<tr><th>
 			<select name="prof">
-			<?php if (mysqli_num_rows($profs) > 0) { foreach($profs as $prof) { echo "<option value='" . $prof['ID'] . "'>" . $prof['nom'] . "</option>"; }}?>
+			<?php if ($profs->rowCount() > 0) { foreach($profs as $prof) { echo "<option value='" . $prof['ID'] . "'>" . $prof['nom'] . "</option>"; }}?>
 			</select>
 		</th></tr>
 		<tr><th>
 			<select name="ressource">
-			<?php if (mysqli_num_rows($ressources) > 0) { foreach($ressources as $ressource) { echo "<option value='" . $ressource['ID'] . "'>R " . $ressource['code'] . " - " . $ressource['nom'] . "</option>"; }}?>
+			<?php if ($ressources->rowCount() > 0) { foreach($ressources as $ressource) { echo "<option value='" . $ressource['ID'] . "'>R " . $ressource['code'] . " - " . $ressource['nom'] . "</option>"; }}?>
 			</select>
 		</th></tr>
 		<tr><th><input type="date" name="date"></th></tr>
@@ -148,4 +160,4 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
   <script src="main.js"></script>
   <script>colormode(<?php echo $_SESSION['colormode']?>)</script>
 </html>
-<?php mysqli_close($con); ?>
+<?php $pdo = null; ?>
