@@ -145,9 +145,12 @@ $userdata = $_SESSION['userdata'];
     <h1>Notes</h1>
     <?php 
     if ($_SESSION['userdata']['verified'] == 0) {
-      die("Identifiants CAS non renseignés dans la page profil");
+      die("<p>Identifiants CAS non renseignés dans la page profil</p></body></html>");
     } else if (!isset($_SESSION['notedata'])) {
       $_SESSION['notedata'] = authcas($_SESSION['usercas'], $_SESSION['passcas']);
+    }
+    if ($_SESSION['notedata'] == 1) {
+      die("<p>Erreur d'authentification CAS, cérifiez vos identifiants dans la page profil</p></body></html>");
     }
     $data = $_SESSION['notedata'];
     ?>
