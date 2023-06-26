@@ -38,7 +38,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			$stmt = $pdo->prepare("INSERT INTO utilisateurs (username, password, verified, admin) VALUES (:username, :password, :verified, :admin)");
         	$stmt->bindParam(':username', $username);
         	$stmt->bindParam(':password', md5($password));
-        	$stmt->bindParam(':verified', O);
+        	$stmt->bindParam(':verified', 0);
         	$stmt->bindParam(':admin', 0);
         	if($stmt->execute()) {
 				$now = getdate();
