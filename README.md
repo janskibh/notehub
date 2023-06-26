@@ -1,6 +1,7 @@
 /!\ Avant d'utiliser notehub n'oubliez pas de modifier la valeur de $dbpass dans include/config.php par le mot de passe de votre base de données
 
-importez votre base de donnée dans phpmyadmin en important le fichier notehub.sql
+importez votre base de donnée dans phpmyadmin avec le fichier notehub.sql
+
 Lors de la premièère connexion vous pouvez vous connecter avec l'utilisateur admin et le mot de passe password
 
 # Notehub
