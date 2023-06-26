@@ -35,11 +35,13 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     } else {
 		$checkuser = $pdo->query("SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
 		if ($checkuser->rowCount() == 0) {
-			$stmt = $pdo->prepare("INSERT INTO utilisateurs (username, password, verified, admin) VALUES (:username, :password, :verified, :admin)");
+			$md5password = md5($password);
+			$stmt = $pdo->prepare("INSERT INTO utilisateurs (`username`, `password`, `verified`, `admin`, `groupe`) VALUES (:username, :password, :verified, :admin, :groupe)");
         	$stmt->bindParam(':username', $username);
-        	$stmt->bindParam(':password', md5($password));
+        	$stmt->bindParam(':password', $md5password);
         	$stmt->bindParam(':verified', 0);
         	$stmt->bindParam(':admin', 0);
+			$stmt->bindParam(':groupe', 1);
         	if($stmt->execute()) {
 				$now = getdate();
 				$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
