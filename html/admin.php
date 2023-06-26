@@ -46,11 +46,26 @@ if (isset($_POST['popuser']) && isset($_POST['userid']) && !empty($_POST['userid
 
 if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['submit'])) {
     $stmt = $pdo->prepare("INSERT INTO devoirs (`prof`, `contenu`, `ressource`, `date`) VALUES (:prof, :contenu, :ressource, :date)");
-    $stmt->bindParam(':prof', $_POST['prof']);
-    $stmt->bindParam(':contenu', $_POST['contenu']);
-    $stmt->bindParam(':ressource', $_POST['ressource']);
-    $stmt->bindParam(':date', $_POST['date']);
-    if ($stmt->execute()) {
+	$stmt->bindParam(':prof', $_POST['prof']);
+	$stmt->bindParam(':contenu', $_POST['contenu']);
+	$stmt->bindParam(':ressource', $_POST['ressource']);
+	$stmt->bindParam(':date', $_POST['date']);
+	if ($stmt->execute()) {
+
+	// Récupération de l'ID du devoir ajouté précédemment
+		$idDevoir = $pdo->lastInsertId();
+
+		// Ajout de la publication associée au devoir
+		
+		foreach($_POST['groupe'] as $groupe) {
+			$stmt = $pdo->prepare("INSERT INTO publications (`type`, `id_pub`, `groupe`) VALUES (1, :idpub, :groupe)");
+			$stmt->bindParam(':idpub', $idDevoir);
+			$stmt->bindParam(':groupe', $groupe);
+			if(!$stmt->execute()) {
+				die("Erreur SQL" . $stmt->errorInfo()[2]);
+			}
+		}
+
         $erreur = "Devoir ajouté";
         $now = getdate();
         $log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " added a homework (" . $_POST['ressource'] . ")\n";
@@ -138,6 +153,7 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 		<?php
 			$profs = $pdo->query("SELECT * FROM profs");
 			$ressources = $pdo->query("SELECT * FROM ressources");
+			$groupes = $pdo->query("SELECT * FROM groupes")
 		?>
 		<tr><th colspan="3">Devoirs</th></tr>
 		<tr><th>
@@ -148,6 +164,11 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 		<tr><th>
 			<select name="ressource">
 			<?php if ($ressources->rowCount() > 0) { foreach($ressources as $ressource) { echo "<option value='" . $ressource['ID'] . "'>R " . $ressource['code'] . " - " . $ressource['nom'] . "</option>"; }}?>
+			</select>
+		</th></tr>
+		<tr><th>
+			<select name="groupe[]" multiple>
+			<?php if ($groupes->rowCount() > 0) { foreach($groupes as $groupe) { echo "<option value='" . $groupe['ID'] . "'>" . $groupe['nom'] . "</option>"; }}?>
 			</select>
 		</th></tr>
 		<tr><th><input type="date" name="date"></th></tr>

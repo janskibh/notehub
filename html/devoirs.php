@@ -12,11 +12,6 @@ include '../include/config.php';
 include '../include/functions.php';
 include '../include/connect.php';
 
-
-// Requête SQL pour récupérer les devoirs triés par date croissante
-
-$stmt = $pdo->query("SELECT d.date as date, d.contenu as contenu, p.nom as nomProf, r.nom as nomRessource FROM devoirs d, profs p, ressources r WHERE d.prof = p.ID AND d.ressource = r.ID ORDER BY date ASC");
-
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +32,27 @@ $stmt = $pdo->query("SELECT d.date as date, d.contenu as contenu, p.nom as nomPr
 
 <?php
 // Affichage des devoirs
-foreach($stmt as $devoir) {
+$stmt = $pdo->prepare("SELECT id_pub FROM publications WHERE groupe = :groupe AND type = 1");
+$stmt->bindParam(':groupe', $_SESSION['userdata']['groupe']);
+if(!$stmt->execute()){
+  die("Erreur : " . $stmt->errorInfo()[2]);
+}
+$idPubs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+// Récupération des devoirs correspondants aux id_pub
+$devoirs = array();
+
+if (!empty($idPubs)) {
+    $placeholders = implode(',', array_fill(0, count($idPubs), '?'));
+
+    $stmt = $pdo->prepare("SELECT d.date as date, d.contenu as contenu, p.nom as nomProf, r.nom as nomRessource FROM devoirs d JOIN profs p ON d.prof = p.ID JOIN ressources r ON d.ressource = r.ID WHERE d.id IN ($placeholders) ORDER BY d.date ASC");
+    if(!$stmt->execute($idPubs)){
+      die("Erreur : " . $stmt->errorInfo()[2]);
+    }
+    $devoirs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+foreach($devoirs as $devoir) {
     echo '<table>';
     echo '<tr><th colspan="2">' . $devoir['nomRessource'] . '</th></tr>';
     echo '<tr><td>Date</td><td>' . $devoir['date'] . '</td></tr>';
