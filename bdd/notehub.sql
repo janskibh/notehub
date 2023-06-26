@@ -127,7 +127,7 @@ INSERT INTO `profs` (`ID`, `nom`) VALUES
 (8, 'Etienne Huot'),
 (9, 'Abdelaziz Benallegue'),
 (10, 'Luc Bondant'),
-(10, 'Stephan Soulayrol')
+(11, 'Stephan Soulayrol')
 ;
 
 -- --------------------------------------------------------
