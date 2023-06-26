@@ -13,14 +13,13 @@ if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
 }
 
 include '../include/functions.php';
+include '../include/connect.php';
 
 $error = "";
 
 if (!isset($_SESSION['colormode'])) {
 	$_SESSION['colormode'] = 0;
 }
-
-include '../include/connect.php';
 
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['submit'])) {
     $username = htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8');
@@ -35,11 +34,11 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     } else {
 		$checkuser = $pdo->query("SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
 		if ($checkuser->rowCount() == 0) {
-			$md5password = md5($password);
+			$md5password = md5($_POST['password']);
 			$stmt = $pdo->prepare("INSERT INTO utilisateurs (`username`, `password`, `verified`, `admin`, `groupe`) VALUES (:username, :password, 0, 0, :groupe)");
-        	$stmt->bindParam(':username', $username);
+        	$stmt->bindParam(':username', $_POST['username']);
         	$stmt->bindParam(':password', $md5password);
-			$stmt->bindParam(':groupe', 1);
+			$stmt->bindValue('groupe', 1);
         	if($stmt->execute()) {
 				$now = getdate();
 				$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
