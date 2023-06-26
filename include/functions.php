@@ -37,24 +37,11 @@
         $auth = curl_exec($s);
 
         if (curl_getinfo($s, CURLINFO_HTTP_CODE) != 200) {
-            if (curl_getinfo($s, CURLINFO_HTTP_CODE) == 302) {
-                return 3;
-            } else if (curl_getinfo($s, CURLINFO_HTTP_CODE) == 403){
-                return 2;
-            } else {
-                return 1;
-            }
+            return 1;
         }
 
         curl_setopt($s, CURLOPT_URL, $url2);
         $semestres = curl_exec($s);
-        if (curl_getinfo($s, CURLINFO_HTTP_CODE) != 200) {
-            if (curl_getinfo($s, CURLINFO_HTTP_CODE) == 500) {
-            return 4;
-            } else {
-            return 1;
-            }
-        }
         $semestres_data = json_decode($semestres, true);
 
         $semestres_json = array();
