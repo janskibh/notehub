@@ -144,7 +144,7 @@ INSERT INTO `profs` (`ID`, `nom`) VALUES
 CREATE TABLE `publications` (
   `ID` int(11) NOT NULL,
   `type` int(11) NOT NULL,
-  `ip_pub` int(11) NOT NULL COMMENT 'ID publication dans sa table',
+  `id_pub` int(11) NOT NULL COMMENT 'ID publication dans sa table',
   `groupe` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
