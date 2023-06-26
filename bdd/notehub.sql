@@ -191,6 +191,7 @@ CREATE TABLE `utilisateurs` (
   `password` varchar(255) NOT NULL,
   `usercas` varchar(255) DEFAULT NULL,
   `passcas` varchar(255) DEFAULT NULL,
+  `iv` varchar(255) DEFAULT NULL,
   `pp_url` varchar(255) DEFAULT NULL,
   `verified` tinyint(1) NOT NULL,
   `admin` tinyint(1) NOT NULL,
@@ -201,7 +202,7 @@ CREATE TABLE `utilisateurs` (
 -- Dumping data for table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`ID`, `username`, `password`, `usercas`, `passcas`, `pp_url`, `verified`, `admin`, `groupe`) VALUES (1, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 1);
+INSERT INTO `utilisateurs` (`ID`, `username`, `password`, `usercas`, `passcas`, `iv`, `pp_url`, `verified`, `admin`, `groupe`) VALUES (1, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, NULL, 0, 1, 1);
 
 --
 -- Indexes for dumped tables

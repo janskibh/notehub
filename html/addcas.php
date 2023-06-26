@@ -14,10 +14,16 @@ if (isset($_POST['usercas']) && isset($_POST['passcas']) && isset($_POST['submit
         $passcaschiffre = openssl_encrypt($_POST['passcas'], 'aes-256-cbc', $_SESSION['password'], 0, $iv);
         $usercaschiffre = openssl_encrypt($_POST['usercas'], 'aes-256-cbc', $_SESSION['password'], 0, $iv);
 
+        $usercas = base64_encode($usercaschiffre);
+        $passcas = base64_encode($passcaschiffre);
+
+        $biniv = bin2hex($iv);
+
         $stmt = $pdo->prepare("UPDATE utilisateurs SET usercas = :usercas, passcas = :passcas, iv = :iv, verified = 1 WHERE ID = :id");
-        $stmt->bindParam(':usercas', base64_encode($usercaschiffre));
-        $stmt->bindParam(':passcas', base64_encode($passcaschiffre));
-        $stmt->bindParam(':iv', bin2hex($iv));
+        
+        $stmt->bindParam(':usercas', $usercas);
+        $stmt->bindParam(':passcas', $passcas);
+        $stmt->bindParam(':iv', $biniv);
         $stmt->bindParam(':id', $_SESSION['userdata']['ID']);
         $stmt->execute();
 
