@@ -1,5 +1,7 @@
 /!\ Avant d'utiliser notehub n'oubliez pas de modifier la valeur de $dbpass dans include/config.php par le mot de passe de votre base de données
 
+La plateforme n'est pas complètement terminée, le système d'annonce et l'affichage des devoirs du groupe de l'utilisateur ne sont pas encore ilmplémentés.
+
 # Notehub
 
 NoteHub est une plateforme permetant aux étudiants de BUT R&T d’être informés des devoirs maison et futurs contrôles à venir. Les étuditants peuvent relier leur compte NoteHub à la passerelle scodoc de l’IUT de Vélizy afin de consulter leurs notes et moyennes de BUT. Des annonces peuvent être publiées par les administrateurs, elles apparaissent en haut de page.
