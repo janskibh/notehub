@@ -39,7 +39,7 @@ CREATE TABLE `annees` (
 --
 
 INSERT INTO `annees` (`ID`, `annees`) VALUES
-(1, '2022-2023');
+(1, '2022-2023'),(2, '2023-2024');
 
 -- --------------------------------------------------------
 
@@ -61,9 +61,6 @@ CREATE TABLE `annonces` (
 -- Dumping data for table `annonces`
 --
 
-INSERT INTO `annonces` (`ID`, `emetteur`, `couleur`, `titre`, `message`, `date`, `visible`) VALUES
-(1, 32, '#F79817', 'Annulation tournoi football', 'Malheureusement, le tournoi de football prévu ne pourra pas avoir lieu. La décision de ne pas justifier les absences pendant la durée du tournoi a été prise par la direction de l\'IUT, ce qui a contraint le BDE à annuler l\'événement.', '2023-05-21 18:54:53', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -81,10 +78,6 @@ CREATE TABLE `devoirs` (
 --
 -- Dumping data for table `devoirs`
 --
-
-INSERT INTO `devoirs` (`ID`, `prof`, `contenu`, `ressource`, `date`) VALUES
-(1, 1, 'Faire la triple intégrale des identités remarquebles de la dérifation de la fonction tierce.', 14, '2023-05-21 00:00:00');
-
 -- --------------------------------------------------------
 
 --
@@ -133,7 +126,9 @@ INSERT INTO `profs` (`ID`, `nom`) VALUES
 (7, 'Dana Marinca'),
 (8, 'Etienne Huot'),
 (9, 'Abdelaziz Benallegue'),
-(10, 'Luc Bondant');
+(10, 'Luc Bondant'),
+(10, 'Stephan Soulayrol')
+;
 
 -- --------------------------------------------------------
 
@@ -150,11 +145,6 @@ CREATE TABLE `publications` (
 
 --
 -- Dumping data for table `publications`
---
-
-INSERT INTO `publications` (`ID`, `type`, `ip_pub`, `groupe`) VALUES
-(1, 1, 1, 1),
-(2, 1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -168,26 +158,6 @@ CREATE TABLE `ressources` (
   `nom` varchar(255) DEFAULT NULL,
   `code` int(12) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `ressources`
---
-
-INSERT INTO `ressources` (`ID`, `semestre`, `nom`, `code`) VALUES
-(1, 1, 'Initiation réseaux', 101),
-(2, 1, 'Archi Réseaux', 102),
-(3, 1, 'Réseaux locaux', 103),
-(4, 1, 'Réseaux locaux', 104),
-(6, 1, 'Systèmes numériques', 106),
-(7, 1, 'Programmation', 107),
-(8, 1, 'Système d\exploitation', 108),
-(9, 1, 'Technologies WEB', 109),
-(10, 1, 'Anglais S1', 110),
-(11, 1, 'ECCP S1', 111),
-(12, 1, 'PPP S1', 112),
-(13, 1, 'Maths signal', 113),
-(14, 1, 'Maths Trans', 114),
-(15, 1, 'Gestion de projet', 115);
 
 -- --------------------------------------------------------
 
@@ -231,19 +201,7 @@ CREATE TABLE `utilisateurs` (
 -- Dumping data for table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`ID`, `username`, `password`, `usercas`, `passcas`, `pp_url`, `verified`, `admin`, `groupe`) VALUES
-(22, 'user1', '5f4dcc3b5aa765d61d8327deb882cf99', 'ac7aff186748dac1c272dafd2bf0d1bd', '48cccca3bab2ad18832233ee8dff1b0b', NULL, 0, 0, 1),
-(23, 'user2', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 1),
-(24, 'user3', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 1),
-(25, 'user4', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 1),
-(26, 'user5', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 1),
-(27, 'user6', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 2),
-(28, 'user7', '5f4dcc3b5aa765d61d8327deb882cf99', '2bb809e352d05dff8dcc914e57ee0cb6', '74c20544feea664a434aa5959357854b', NULL, 0, 0, 2),
-(29, 'user8', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 2),
-(30, 'user9', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 2),
-(31, 'user10', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 2),
-(32, 'admin1', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 1, 1),
-(33, 'admin2', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 1, 2);
+INSERT INTO `utilisateurs` (`ID`, `username`, `password`, `usercas`, `passcas`, `pp_url`, `verified`, `admin`, `groupe`) VALUES (1, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 1),
 
 --
 -- Indexes for dumped tables
