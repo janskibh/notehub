@@ -201,7 +201,7 @@ CREATE TABLE `utilisateurs` (
 -- Dumping data for table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`ID`, `username`, `password`, `usercas`, `passcas`, `pp_url`, `verified`, `admin`, `groupe`) VALUES (1, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 1),
+INSERT INTO `utilisateurs` (`ID`, `username`, `password`, `usercas`, `passcas`, `pp_url`, `verified`, `admin`, `groupe`) VALUES (1, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', NULL, NULL, NULL, 0, 0, 1);
 
 --
 -- Indexes for dumped tables
