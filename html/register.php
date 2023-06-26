@@ -34,7 +34,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 		$error = "Les mots de passe ne correspondent pas";
     } else {
 		$checkuser = $pdo->query("SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
-		if ($checkuser->numRows() == 0) {
+		if ($checkuser->rowCount() == 0) {
 			$stmt = $pdo->prepare("INSERT INTO utilisateurs (username, password, verified, admin) VALUES (':username', ':password', :verified, :admin)");
         	$stmt->bindParam(':username', $username);
         	$stmt->bindParam(':password', md5($password));
