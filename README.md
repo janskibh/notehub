@@ -7,6 +7,9 @@ Lors de la premièère connexion vous pouvez vous connecter avec l'utilisateur a
 # Notehub
 
 NoteHub est une plateforme permetant aux étudiants de BUT R&T d’être informés des devoirs maison et futurs contrôles à venir. Les étuditants peuvent relier leur compte NoteHub à la passerelle scodoc de l’IUT de Vélizy afin de consulter leurs notes et moyennes de BUT. Des annonces peuvent être publiées par les administrateurs, elles apparaissent en haut de page.
+
+lien vers la plateforme : https://notehub2.e59.fr/
+
 ## Fonctonnalités :
 - Page de consultation des devoirs.
 - Page de consultation des moyennes (optionnel).
