@@ -71,15 +71,17 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
   <body>
-    <h1>Créer un compte</h1>
-    <form action="" method="post">
-		<?php echo $error; ?>
-        <input type="text" placeholder="Identifiant" name="username" style="grid-column: 1 / 3; grid-row: 1" required>
-        <input type="password" placeholder="Mot de passe" name="password" style="grid-column: 1 / 3; grid-row: 2" required>
-		<input type="password" placeholder="Confirmer le mot de passe" name="password2" style="grid-column: 1 / 3; grid-row: 3" required>
-		<a href="login.php" class="form_link" style="grid-column: 1; grid-row: 4">Connexion</a>
-		<input type="submit" value="valider" name="submit" style="grid-column: 2; grid-row: 4">
-    </form>
+	<h1>Créer un compte</h1>
+	<form action="" method="post">
+		<?php
+			$groupes = $pdo->query("SELECT * FROM groupes");
+		?>
+		<input type="text" placeholder="Identifiant" name="username" style="grid-column: 1 / 3; grid-row: 1" required>
+		<input type="password" placeholder="Mot de passe" name="password" style="grid-column: 1 / 3; grid-row: 2" required>
+		<input type="password" placeholder="Confirmer mot de passe" name="password2" style="grid-column: 1 / 3; grid-row: 3" required>
+		<input type="submit" value="valider" name="submit" style="grid-column: 2; grid-row: 5">
+	</form>
+	<p>Vous avez déja un compte ?<a href="login.php" style="grid-column: 1; grid-row: 4" class="form_link">Connexion</a></p>
   <footer><?php footer()?></footer>
   </body>
   <script src="main.js"></script>

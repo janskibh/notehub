@@ -63,10 +63,15 @@
         echo '<h2>A propos</h2>';
         $modes = array("clair", "sombre", "sombre");
         $modes_codes = array("1", "0", "0");
-        echo '<a href="colormode.php?mode=' . $modes_codes[$_SESSION['colormode']] . '&source=' . $_SERVER['REQUEST_URI'] . '">Mode ' . $modes[$_SESSION['colormode']] . '</a><br><br>';
-        echo '<a href="data_usage.php">Utilisation des données</a><br><br>';
-        echo $_SESSION['userdata']['admin'] == 1 ? '<a href="admin.php">Admin</a>' : '';
-        echo "<hr>&copy; 2023 Jan BELLON | Club Réseaux | IUT de Vélizy";
+        if(isset($_SESSION['colormode']) && isset($_SESSION['userdata'])) {
+            echo '<a href="colormode.php?mode=' . $modes_codes[$_SESSION['colormode']] . '&source=' . $_SERVER['REQUEST_URI'] . '">Mode ' . $modes[$_SESSION['colormode']] . '</a><br><br>';
+            echo '<a href="data_usage.php">Utilisation des données</a><br><br>';
+            echo $_SESSION['userdata']['admin'] == 1 ? '<a href="admin.php">Admin</a>' : '';
+            echo "<hr>&copy; 2023 Jan BELLON | Club Réseaux | IUT de Vélizy";
+        } else {
+            echo '<a href="data_usage.php">Utilisation des données</a><br><br>';
+            echo "<hr>&copy; 2023 Jan BELLON | Club Réseaux | IUT de Vélizy";
+        }
     }
     function nav($pages) {
         echo '<a href="index.php"><img src="./img/notehub' . $_SESSION['colormode'] . '.png" id="notehub-icon"/></a>';

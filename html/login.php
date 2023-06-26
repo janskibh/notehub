@@ -94,9 +94,9 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
     <form action="" method="post">
         <input type="text" placeholder="Identifiant" name="username" style="grid-column: 1 / 3; grid-row: 1" required>
         <input type="password" placeholder="Mot de passe" name="password" style="grid-column: 1 / 3; grid-row: 2" required>
-		<a href="register.php" class="form_link" style="grid-column: 1; grid-row: 3">Créer un compte</a>
 		<input type="submit" value="valider" name="submit" style="grid-column: 2; grid-row: 3">
     </form>
+	<p>Vous n'avez pas encore de compte ? <a href="register.php" class="form_link" style="grid-column: 1; grid-row: 3">Créer un compte</a></p>
   <footer><?php footer()?></footer>
   </body>
   <script src="main.js"></script>
