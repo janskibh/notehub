@@ -36,11 +36,9 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 		$checkuser = $pdo->query("SELECT * FROM utilisateurs WHERE username = '" . $username . "'");
 		if ($checkuser->rowCount() == 0) {
 			$md5password = md5($password);
-			$stmt = $pdo->prepare("INSERT INTO utilisateurs (`username`, `password`, `verified`, `admin`, `groupe`) VALUES (:username, :password, :verified, :admin, :groupe)");
+			$stmt = $pdo->prepare("INSERT INTO utilisateurs (`username`, `password`, `verified`, `admin`, `groupe`) VALUES (:username, :password, 0, 0, :groupe)");
         	$stmt->bindParam(':username', $username);
         	$stmt->bindParam(':password', $md5password);
-        	$stmt->bindParam(':verified', 0);
-        	$stmt->bindParam(':admin', 0);
 			$stmt->bindParam(':groupe', 1);
         	if($stmt->execute()) {
 				$now = getdate();
