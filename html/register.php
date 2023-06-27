@@ -41,7 +41,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			$stmt->bindValue('groupe', 1);
         	if($stmt->execute()) {
 				$now = getdate();
-				$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " registered from " . $_SERVER['REMOTE_ADDR'] . "\n";
+				$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " a créé un compte depuis " . $_SERVER['REMOTE_ADDR'] . "\n";
 				addlog($log, $log_dir);
 
 				$_SESSION['password'] = $password;

@@ -26,9 +26,7 @@ include '../include/functions.php';
 	}
     ?>
     <h1>Données Utilisateur</h1>
-    <p style="text-align: left;">
-	Lorsque vous vous connectez sur notehub.e59.fr, le site utilise votre identifiant et mot de passe UVSQ pour se connecter à bulletins.iut-velizy.uvsq.fr et récupérer les notes ainsi que les données utilisateur renvoyées par Scodoc.<br><br>Vos identifiants UVSQ ainsi que les données renvoyées par bulletins.iut-velizy.uvsq.fr sont stockées dans une session qui se détruit lorsque vous vous déconnectez.<br><br>Pour toute question, veuillez vous adresser à JAN#4701 sur Discord ou envoyer un mail à <a href="mailto:club@e59.fr">club@e59.fr</a>.
-    </p>
+    <p style="text-align: left;">Toutes les données sensibles (MDP utilisateur, identifiants CAS) sont chiffrées dans la Base de données. Si vous voulez récupérer vos données : <a href="mailto:club@e59.fr">club@e59.fr</a></p>
     <?php
 	if ($loggedin) {
 		echo "<footer>";

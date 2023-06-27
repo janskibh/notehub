@@ -68,7 +68,7 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 
         $erreur = "Devoir ajouté";
         $now = getdate();
-        $log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " added a homework (" . $_POST['ressource'] . ")\n";
+        $log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " a ajouté un devoir (ID ressource : " . $_POST['ressource'] . ")\n";
         addlog($log, $log_dir);
     } else {
         $erreur = "Erreur : " . $stmt->errorInfo()[2];
@@ -98,7 +98,7 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
     <h1>Admin</h1>
 	<?php echo isset($erreur) ? $erreur : "" ?>
 	<table>
-	<tr><th>Active Sessions</th></tr>
+	<tr><th>Sessions</th></tr>
 	<?php
 		foreach (array_slice(scandir(ini_get("session.save_path")), 2) as $session_name) {
 			echo "<tr><td>" . $session_name . "</td></tr>";

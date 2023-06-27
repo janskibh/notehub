@@ -52,7 +52,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			}
 
 			$now = getdate();
-			$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " logged in from " . $_SERVER['REMOTE_ADDR'] . " with session : " . session_id() . "\n";
+			$log = "C => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " s'est connecté depuis " . $_SERVER['REMOTE_ADDR'] . " avec la session : " . session_id() . "\n";
 			addlog($log, $log_dir);
 
 			$pdo = null;
@@ -66,7 +66,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 			}
 		} else {
 			$now = getdate();
-			$log_data = "F => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " tried to log in from " . $_SERVER['REMOTE_ADDR'] . " wrong password\n";
+			$log_data = "F => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $username . " a essayé de se connecter depuis " . $_SERVER['REMOTE_ADDR'] . " mauvais mot de passe\n";
 			addlog($log_data, $log_dir);
 			$error = "Nom d'utilisateur ou mot de passe incorrect";
 		}
