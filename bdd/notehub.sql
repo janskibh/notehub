@@ -52,7 +52,7 @@ CREATE TABLE `annonces` (
   `emetteur` int(11) NOT NULL,
   `couleur` varchar(255) DEFAULT NULL,
   `titre` varchar(255) DEFAULT NULL,
-  `message` varchar(255) DEFAULT NULL,
+  `message` text DEFAULT NULL,
   `date` datetime NOT NULL DEFAULT current_timestamp(),
   `visible` tinyint(1) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
