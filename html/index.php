@@ -44,7 +44,7 @@ include '../include/functions.php';
 		if (!empty($idPubs)) {
 			$placeholders = implode(',', array_fill(0, count($idPubs), '?'));
 			//ANNONCES(ID, #IDEMETTEUR, COULEUR, DATE, VISIBILITE, TITRE, MESSAGE)
-			$stmt = $pdo->prepare("SELECT a.date as date, a.message as message, a.titre as titre, u.username as emetteur, a.couleur as couleur, a.visible as visible FROM annonces a JOIN utilisateurs u ON a.emetteur = u.ID WHERE a.id IN ($placeholders) ORDER BY a.date ASC");
+			$stmt = $pdo->prepare("SELECT a.date as date, a.message as message, a.titre as titre, u.username as emetteur, u.verified as verified, u.pp_url as pp_url, a.couleur as couleur, a.visible as visible FROM annonces a JOIN utilisateurs u ON a.emetteur = u.ID WHERE a.id IN ($placeholders) ORDER BY a.date ASC");
 			if(!$stmt->execute($idPubs)){
 			die("Erreur : " . $stmt->errorInfo()[2]);
 			}
@@ -54,10 +54,11 @@ include '../include/functions.php';
 		foreach($annonces as $annonce) {
 			if ($annonce['visible']){
 				echo '<table style="border: 1px solid ' . $annonce['couleur'] . '">';
-				echo '<tr><th colspan="2">' . $annonce['emetteur'] . '</th></tr>';
-				echo '<tr><td>Date</td><td>' . $annonce['date'] . '</td></tr>';
-				echo '<tr><td>Titre</td><td>' . $annonce['titre'] . '</td></tr>';
-				echo '<tr><td>Message</td><td>' . $annonce['message'] . '</td></tr>';
+				echo '<tr><th>' . $annonce['emetteur'];
+				echo $annonce['verified'] ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="20px" style="margin-left: 5px;"/>' : '';
+				echo ' <span style="font-size: 0.7em; opacity: 0.5; float: right;">' . $annonce['date'] . '<span></th></tr>';
+				echo '<tr><td>' . $annonce['titre'] . '</td></tr>';
+				echo '<tr><td>' . $annonce['message'] . '</td></tr>';
 				echo '</table>';
 			}
 		}
