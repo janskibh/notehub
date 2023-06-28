@@ -50,7 +50,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['subm
 				header("Location: logout.php");
 				exit();
 			} else {
-				echo "Erreur : " . $stmt->errorInfo()[2];
+				$error = "Erreur : " . $stmt->errorInfo()[2];
 			}
 			
 		} else {

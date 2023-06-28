@@ -18,62 +18,105 @@ if ($_SESSION['userdata']['admin'] != 1) {
 
 include '../include/connect.php';
 
-if (isset($_POST['popadmin']) && isset($_POST['adminid']) && !empty($_POST['adminid'])) {
-    $stmt = $pdo->prepare("UPDATE utilisateurs SET admin = 0 WHERE ID = :adminid");
-    $stmt->bindParam(':adminid', $_POST['adminid']);
-    $stmt->execute();
-    $erreur = "Utilisateur retiré des admins";
-}
-
-if (isset($_POST['addadmin']) && isset($_POST['username']) && !empty($_POST['username'])) {
-    $stmt = $pdo->prepare("UPDATE utilisateurs SET admin = 1 WHERE username = :username");
-    $stmt->bindParam(':username', $_POST['username']);
-    $stmt->execute();
-
-    if ($stmt->rowCount() > 0) {
-        $erreur = $_POST['username'] . " a rejoint le groupe des admins";
-    } else {
-        $erreur = "Aucun admin ajouté";
-    }
-}
-
-if (isset($_POST['popuser']) && isset($_POST['userid']) && !empty($_POST['userid'])) {
-    $stmt = $pdo->prepare("DELETE FROM utilisateurs WHERE ID = :userid");
-    $stmt->bindParam(':userid', $_POST['userid']);
-    $stmt->execute();
-    $erreur = "Utilisateur supprimé";
-}
-
-if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu']) && isset($_POST['date']) && isset($_POST['submit'])) {
-    $stmt = $pdo->prepare("INSERT INTO devoirs (`prof`, `contenu`, `ressource`, `date`) VALUES (:prof, :contenu, :ressource, :date)");
-	$stmt->bindParam(':prof', $_POST['prof']);
-	$stmt->bindParam(':contenu', $_POST['contenu']);
-	$stmt->bindParam(':ressource', $_POST['ressource']);
-	$stmt->bindParam(':date', $_POST['date']);
-	if ($stmt->execute()) {
-
-	// Récupération de l'ID du devoir ajouté précédemment
-		$idDevoir = $pdo->lastInsertId();
-
-		// Ajout de la publication associée au devoir
+if (isset($_POST['submit'])) {
+	if ($_POST['submit'] == "devoir"){
+		//#####################
+		// DEVOIRS
+		//#####################
+		if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu']) && isset($_POST['date'])) {
+			$stmt = $pdo->prepare("INSERT INTO devoirs (`prof`, `contenu`, `ressource`, `date`) VALUES (:prof, :contenu, :ressource, :date)");
+			$stmt->bindParam(':prof', $_POST['prof']);
+			$stmt->bindParam(':contenu', $_POST['contenu']);
+			$stmt->bindParam(':ressource', $_POST['ressource']);
+			$stmt->bindParam(':date', $_POST['date']);
+			if ($stmt->execute()) {
 		
-		foreach($_POST['groupe'] as $groupe) {
-			$stmt = $pdo->prepare("INSERT INTO publications (`type`, `id_pub`, `groupe`) VALUES (1, :idpub, :groupe)");
-			$stmt->bindParam(':idpub', $idDevoir);
-			$stmt->bindParam(':groupe', $groupe);
-			if(!$stmt->execute()) {
-				die("Erreur SQL" . $stmt->errorInfo()[2]);
+			// Récupération de l'ID du devoir ajouté précédemment
+				$idDevoir = $pdo->lastInsertId();
+		
+				// Ajout de la publication associée au devoir
+				
+				foreach($_POST['groupe'] as $groupe) {
+					$stmt = $pdo->prepare("INSERT INTO publications (`type`, `id_pub`, `groupe`) VALUES (1, :idpub, :groupe)");
+					$stmt->bindParam(':idpub', $idDevoir);
+					$stmt->bindParam(':groupe', $groupe);
+					if(!$stmt->execute()) {
+						die("Erreur SQL" . $stmt->errorInfo()[2]);
+					}
+				}
+		
+				$erreur = "Devoir ajouté";
+				$now = getdate();
+				$log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " a ajouté un devoir (ID ressource : " . $_POST['ressource'] . ")\n";
+				addlog($log, $log_dir);
+			} else {
+				$erreur = "Erreur : " . $stmt->errorInfo()[2];
 			}
 		}
-
-        $erreur = "Devoir ajouté";
-        $now = getdate();
-        $log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " a ajouté un devoir (ID ressource : " . $_POST['ressource'] . ")\n";
-        addlog($log, $log_dir);
-    } else {
-        $erreur = "Erreur : " . $stmt->errorInfo()[2];
-    }
+	} else if ($_POST['submit'] == "annonce"){
+		//#####################
+		// ANNONCES
+		//#####################
+		if (isset($_POST['message']) && isset($_POST['couleur'])) {
+			$stmt = $pdo->prepare("INSERT INTO annonces (`emetteur`, `couleur`, `titre`, `message`, `visible`) VALUES (:emetteur, :couleur, :titre, :message, 1)");
+			$stmt->bindParam(':emetteur', $_SESSION['userdata']['ID']);
+			$stmt->bindParam(':couleur', $_POST['couleur']);
+			$stmt->bindParam(':titre', $_POST['titre']);
+			$stmt->bindParam(':message', $_POST['message']);
+			if ($stmt->execute()) {
+		
+			// Récupération de l'ID de l'annonce ajoutée précédemment
+				$idAnnonce = $pdo->lastInsertId();
+		
+				// Ajout de la publication associée à l'annonce
+				
+				foreach($_POST['groupe'] as $groupe) {
+					$stmt = $pdo->prepare("INSERT INTO publications (`type`, `id_pub`, `groupe`) VALUES (2, :idpub, :groupe)");
+					$stmt->bindParam(':idpub', $idAnnonce);
+					$stmt->bindParam(':groupe', $groupe);
+					if(!$stmt->execute()) {
+						die("Erreur SQL" . $stmt->errorInfo()[2]);
+					}
+				}
+		
+				$erreur = "Annonce publiée";
+				$now = getdate();
+				$log = "A => " . sprintf("%02d", $now['mday']) . "/" . sprintf("%02d", $now['mon']) . "/" . $now['year'] . " " . sprintf("%02d", $now['hours']) . ":" . sprintf("%02d", $now['minutes']) . ":" . sprintf("%02d", $now['seconds']) . " -> " . $_SESSION['username'] . " a ajouté une annonce (" . $_POST['titre'] . ")\n";
+				addlog($log, $log_dir);
+			} else {
+				$erreur = "Erreur : " . $stmt->errorInfo()[2];
+			}
+		}
+	} else if ($_POST['submit'] == "popadmin") {
+		if (isset($_POST['id']) && !empty($_POST['id'])) {
+			$stmt = $pdo->prepare("UPDATE utilisateurs SET admin = 0 WHERE ID = :adminid");
+			$stmt->bindParam(':adminid', $_POST['id']);
+			$stmt->execute();
+			$erreur = "Utilisateur retiré des admins";
+		}
+	} else if ($_POST['submit'] == "addadmin") {
+		if (isset($_POST['username']) && !empty($_POST['username'])) {
+			$stmt = $pdo->prepare("UPDATE utilisateurs SET admin = 1 WHERE username = :username");
+			$stmt->bindParam(':username', $_POST['username']);
+			$stmt->execute();
+		
+			if ($stmt->rowCount() > 0) {
+				$erreur = $_POST['username'] . " a rejoint le groupe des admins";
+			} else {
+				$erreur = "Aucun admin ajouté";
+			}
+		}
+	} else if ($_POST['submit'] == "deluser") {
+		if (isset($_POST['id']) && !empty($_POST['id'])) {
+			$stmt = $pdo->prepare("DELETE FROM utilisateurs WHERE ID = :userid");
+			$stmt->bindParam(':userid', $_POST['id']);
+			$stmt->execute();
+			$erreur = "Utilisateur supprimé";
+		}
+	}
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -122,7 +165,7 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 			$stmt = $pdo->query("SELECT * FROM utilisateurs WHERE admin = 0");
 			if ($stmt->rowCount() > 0) {
 				foreach ($stmt as $user) {
-					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='submit' name='popuser' value='supprimer'><input type='hidden' name='userid' value='" . $user['ID'] . "'</td></form></tr>";
+					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='hidden' value='" . $user['ID'] . "' name='id'><button type='submit' name='submit' value='deluser'>Supprimer</button></form></tr>";
 				}
 			}
 		?>
@@ -136,16 +179,16 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 				foreach ($stmt as $user) {
 					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td>";
 					if ($user['username'] != $_SESSION['username']) {
-						echo "<td><input type='submit' name='popadmin' value='retirer'><input type='hidden' name='adminid' value='" . $user['ID'] . "'</td>";
+						echo "<td><input type='hidden' name='id' value='" . $user['ID'] . "'><button type='submit' name='submit' value='popadmin'>Virer</button>";
 					} else {
-						echo "<td><input type='submit' name='popadmin' value='Cet utilisateur' disabled ></td>";
+						echo "<td><button type='submit' name='submit' value='none' disabled>Cet utilisateur</button></td>";
 					}
 					echo "</form></tr>";
 				}
 			}
 		?>
 		<tr><th>Ajouter un admin</th><th></th></tr>
-		<tr><form action="" method="post"><td><input type='text' name='username' placeholder='username' style='font-size: 20px;'></td><td><input type='submit' name='addadmin' value='ajouter'></td></form></tr>
+		<tr><form action="" method="post"><td><input type='text' name='username' placeholder='username' style='font-size: 20px;'></td><td><button type="submit" name="submit" value="addadmin">Valider</button></td></form></tr>
 	</table>
 
 	<table>
@@ -173,7 +216,25 @@ if (isset($_POST['prof']) && isset($_POST['ressource']) && isset($_POST['contenu
 		</th></tr>
 		<tr><th><input type="date" name="date"></th></tr>
 		<tr><th><input type="text" name="contenu" placeholder="contenu"/></th></tr>
-		<tr><th><input type="submit" name="submit" value="valider"></th></tr>
+		<tr><th><button type="submit" name="submit" value="devoir">Valider</button></th></tr>
+	</form>
+	</table>
+
+	<table>
+	<form action="" method="post">
+		<?php
+			$groupes = $pdo->query("SELECT * FROM groupes")
+		?>
+		<tr><th colspan="3">Annonces</th></tr>
+		<tr><th>
+			<select name="groupe[]" multiple>
+			<?php if ($groupes->rowCount() > 0) { foreach($groupes as $groupe) { echo "<option value='" . $groupe['ID'] . "'>" . $groupe['nom'] . "</option>"; }}?>
+			</select>
+		</th></tr>
+		<tr><th><input type="text" name="titre" placeholder="titre"/></th></tr>
+		<tr><th><input type="text" name="message" placeholder="message"/></th></tr>
+		<tr><th><input type="color" name="couleur"/></th></tr>
+		<tr><th><button type="submit" name="submit" value="annonce">Valider</button></th></tr>
 	</form>
 	</table>
   <footer><?php footer()?></footer>

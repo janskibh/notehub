@@ -10,6 +10,7 @@ if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
 }
 
 include '../include/config.php';
+include '../include/connect.php';
 include '../include/functions.php';
 
 ?>
@@ -30,7 +31,39 @@ include '../include/functions.php';
 		</nav>
 		<h1>Bienvenue sur Notehub</h1>
 		<p>Le site est en construction mais les pages <a href="notes.php?sem_id=0">Notes</a> et <a href="profil.php" >Profil</a> sont accessibles.<br><br>
-		En cas de bug ou d'erreurs, veuillez les signaler à <b>@jan.mp4</b> sur Discord ou envoyr un mail à <a href="mailto:club@e59.fr">club@e59.fr</a></p>
+		En cas de bug ou d'erreurs, veuillez les signaler à <b>@jan.mp4</b> sur Discord ou envoyez un mail à <a href="mailto:club@e59.fr">club@e59.fr</a></p>
+		<?php
+		$stmt = $pdo->prepare("SELECT id_pub FROM publications WHERE groupe = :groupe AND type = 2");
+		$stmt->bindParam(':groupe', $_SESSION['userdata']['groupe']);
+		if(!$stmt->execute()){
+			die("Erreur : " . $stmt->errorInfo()[2]);
+		}
+		$idPubs = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+		// Récupération des devoirs correspondants aux id_pub
+		$annonces = array();
+
+		if (!empty($idPubs)) {
+			$placeholders = implode(',', array_fill(0, count($idPubs), '?'));
+			//ANNONCES(ID, #IDEMETTEUR, COULEUR, DATE, VISIBILITE, TITRE, MESSAGE)
+			$stmt = $pdo->prepare("SELECT a.date as date, a.message as message, a.titre as titre, u.username as emetteur, a.couleur as couleur, a.visible as visible FROM annonces a JOIN utilisateurs u ON a.emetteur = u.ID WHERE a.id IN ($placeholders) ORDER BY a.date ASC");
+			if(!$stmt->execute($idPubs)){
+			die("Erreur : " . $stmt->errorInfo()[2]);
+			}
+			$annonces = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		foreach($annonces as $annonce) {
+			if ($annonce['visible']){
+				echo '<table style="border: 1px solid ' . $annonce['couleur'] . '">';
+				echo '<tr><th colspan="2">' . $annonce['emetteur'] . '</th></tr>';
+				echo '<tr><td>Date</td><td>' . $annonce['date'] . '</td></tr>';
+				echo '<tr><td>Titre</td><td>' . $annonce['titre'] . '</td></tr>';
+				echo '<tr><td>Message</td><td>' . $annonce['message'] . '</td></tr>';
+				echo '</table>';
+			}
+		}
+		?>
 		<footer><?php footer()?></footer>
   	</body>
 	<script src="main.js"></script>
