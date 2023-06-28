@@ -29,7 +29,7 @@ include '../include/functions.php';
 		<nav>
 		<?php nav($pages)?>
 		</nav>
-		<h1>Bienvenue sur Notehub</h1>
+		<h1>NoteHub</h1>
 		<?php
 		$stmt = $pdo->prepare("SELECT id_pub FROM publications WHERE groupe = :groupe AND type = 2");
 		$stmt->bindParam(':groupe', $_SESSION['userdata']['groupe']);
