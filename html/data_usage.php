@@ -25,7 +25,7 @@ include '../include/functions.php';
 		echo "</nav>";
 	}
     ?>
-    <h1>Données Utilisateur</h1>
+    <h1>utilisation des données</h1>
     <p style="text-align: left;">Toutes les données sensibles (MDP utilisateur, identifiants CAS) sont chiffrées dans la Base de données. Si vous voulez récupérer vos données : <a href="mailto:club@e59.fr">club@e59.fr</a></p>
     <?php
 	if ($loggedin) {

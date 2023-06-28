@@ -28,7 +28,7 @@ include '../include/connect.php';
     <nav>
 	<?php nav($pages)?>
     </nav>
-    <h1>Liste des devoirs</h1>
+    <h1>Devoirs</h1>
 
 <?php
 // Affichage des devoirs

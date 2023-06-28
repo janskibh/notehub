@@ -54,7 +54,15 @@ $password = $_SESSION['password'];
     <nav>
 	<?php nav($pages);?>
     </nav>
-    <h1><?php echo "<img src='"; echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : "img/default_pp.jpg"; echo "' height='100px' width='100px' style='margin-right: 100px; border-radius: 50px'/>"; echo $_SESSION['username']; echo $_SESSION['userdata']['verified'] == 1 ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="50px" style="margin-left: 20px;"/>' : ""?></h1>
+    <h1>
+      <?php 
+        echo "<img src='";
+        echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : "img/default_pp.jpg";
+        echo "' height='100px' width='100px' style='margin-right: 100px; border-radius: 50px'/>@";
+        echo $_SESSION['username'];
+        echo $_SESSION['userdata']['verified'] == 1 ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="50px" style="margin-left: 20px;"/>' : ""
+      ?>
+      </h1>
     <?php echo isset($erreur) ? $erreur : "" ?>
     <table>
     <tr><th colspan="2">Identifiants CAS</th></tr>
