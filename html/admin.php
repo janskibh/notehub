@@ -154,36 +154,36 @@ if (isset($_POST['submit'])) {
 	?>
 	</table>
 	<table>
-		<tr><th colspan="2">Gestion des utilisateurs</th></tr>
-		<tr><th>Utilisateurs</th><th></th></tr>
+		<tr><th>Gestion des utilisateurs</th></tr>
+		<tr><th>Utilisateurs</th></tr>
 		<?php
 			$stmt = $pdo->query("SELECT * FROM utilisateurs WHERE admin = 0");
 			if ($stmt->rowCount() > 0) {
 				foreach ($stmt as $user) {
-					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td><td><input type='hidden' value='" . $user['ID'] . "' name='id'><button type='submit' name='submit' value='deluser'>Supprimer</button></form></tr>";
+					echo "<tr><form action='' method='post'><td>" . $user['username'] . "<input type='hidden' value='" . $user['ID'] . "' name='id'><button type='submit' name='submit' value='deluser' style='float:right'>Supprimer</button></td></form></tr>";
 				}
 			}
 		?>
 	</table>
 	<table>
-		<tr><th colspan="2">Gestion des admins</th></tr>
-		<tr><th>Admins</th><th></th></tr>
+		<tr><th>Gestion des admins</th></tr>
+		<tr><th>Admins</th></tr>
 		<?php
 			$stmt = $pdo->query("SELECT * FROM utilisateurs WHERE admin = 1");
 			if ($stmt->rowCount() > 0) {
 				foreach ($stmt as $user) {
-					echo "<tr><form action='' method='post'><td>" . $user['username'] . "</td>";
+					echo "<tr><form action='' method='post'><td>" . $user['username'];
 					if ($user['username'] != $_SESSION['username']) {
-						echo "<td><input type='hidden' name='id' value='" . $user['ID'] . "'><button type='submit' name='submit' value='popadmin'>Virer</button>";
+						echo "<input type='hidden' name='id' value='" . $user['ID'] . "'><button type='submit' name='submit' value='popadmin'>Virer</button>";
 					} else {
-						echo "<td><button type='submit' name='submit' value='none' disabled>Cet utilisateur</button></td>";
+						echo "<button type='submit' name='submit' value='none' style='float:right' disabled>Cet utilisateur</button>";
 					}
-					echo "</form></tr>";
+					echo "</td></form></tr>";
 				}
 			}
 		?>
-		<tr><th>Ajouter un admin</th><th></th></tr>
-		<tr><form action="" method="post"><td><input type='text' name='username' placeholder='username' style='font-size: 20px;'></td><td><button type="submit" name="submit" value="addadmin">Valider</button></td></form></tr>
+		<tr><th>Ajouter un admin</th></tr>
+		<tr><form action="" method="post"><td><input type='text' name='username' placeholder='username' style='font-size: 20px;'><button type="submit" name="submit" value="addadmin">Valider</button></td></form></tr>
 	</table>
 
 	<table>
