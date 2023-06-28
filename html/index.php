@@ -53,11 +53,25 @@ include '../include/functions.php';
 
 		foreach($annonces as $annonce) {
 			if ($annonce['visible']){
-				echo '<table style="border: 1px solid ' . $annonce['couleur'] . '">';
-				echo '<tr><th>@' . $annonce['emetteur'];
+				$pubdate = new DateTime($annonce['date']);
+				$now = new DateTime("now");
+				$interval = $pubdate->diff($now);
+				if ($interval->days != 0) {
+					$age = $interval->days . "d";
+				} else if ($interval->h != 0) {
+					$age = $interval->h . "h";
+				} else if ($interval->i != 0) {
+					$age = $interval->i . "m";
+				} else if ($interval->s != 0) {
+					$age = $interval->h . "s";
+				}
+				echo '<table style="border: 1px solid ' . $annonce['couleur'] . '; width: 60%;">';
+				echo "<tr><th><span><img src='";
+				echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : "img/default_pp.jpg";
+				echo "' height='50px' width='50px' style='margin-right: 10px; border-radius: 25px'/><span style='position:absolute;'>@" . $annonce['emetteur'];
 				echo $annonce['verified'] ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="20px" style="margin-left: 5px;"/>' : '';
-				echo ' <span style="font-size: 0.7em; opacity: 0.5; float: right;">' . $annonce['date'] . '<span></th></tr>';
-				echo '<tr><td>' . $annonce['titre'] . '</td></tr>';
+				echo '</span><span style="font-size: 0.7em; opacity: 0.5; float: right;">' . $age . '<span></span></th></tr>';
+				
 				echo '<tr><td>' . $annonce['message'] . '</td></tr>';
 				echo '</table>';
 			}
