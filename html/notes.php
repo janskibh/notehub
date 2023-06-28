@@ -157,7 +157,9 @@ $userdata = $_SESSION['userdata'];
     <div id="sem_links">
       <?php
       for ($i = 0; $i < sizeof($data); $i++) {
-        echo '<a href="notes.php?sem_id=' . $i .'">' . $data[$i]->relevé->semestre->annee_universitaire . ' Semestre ' . $data[$i]->relevé->semestre->numero . '</a><br><br>';
+        if (property_exists($data[$i]->relevé, 'semestre')) {
+          echo '<a href="notes.php?sem_id=' . $i .'">' . $data[$i]->relevé->semestre->annee_universitaire . ' Semestre ' . $data[$i]->relevé->semestre->numero . '</a><br><br>';
+        }
       }
       ?>
     </div>
@@ -177,6 +179,9 @@ $userdata = $_SESSION['userdata'];
         die("Numéro de semestre invalide");
       }
       $sem_data = $data[$sem];
+      if (!property_exists($sem_data->relevé, 'semestre')) {
+        die("L'IUT n'a pas publié de relevé");
+      }
       $notes = array();
       $michel = array("ressources", "saes");
       $allcolors = array(
