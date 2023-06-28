@@ -30,8 +30,6 @@ include '../include/functions.php';
 		<?php nav($pages)?>
 		</nav>
 		<h1>Bienvenue sur Notehub</h1>
-		<p>Le site est en construction mais les pages <a href="notes.php?sem_id=0">Notes</a> et <a href="profil.php" >Profil</a> sont accessibles.<br><br>
-		En cas de bug ou d'erreurs, veuillez les signaler à <b>@jan.mp4</b> sur Discord ou envoyez un mail à <a href="mailto:club@e59.fr">club@e59.fr</a></p>
 		<?php
 		$stmt = $pdo->prepare("SELECT id_pub FROM publications WHERE groupe = :groupe AND type = 2");
 		$stmt->bindParam(':groupe', $_SESSION['userdata']['groupe']);
