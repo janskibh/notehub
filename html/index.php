@@ -61,6 +61,7 @@ include '../include/functions.php';
 				echo '</table>';
 			}
 		}
+		$pdo = null;
 		?>
 		<footer><?php footer()?></footer>
   	</body>

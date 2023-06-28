@@ -128,11 +128,6 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <style>
-	table td, table th {
-		width: 0;
-	}
-    </style>
   </head>
   <body>
     <nav>
@@ -148,7 +143,7 @@ if (isset($_POST['submit'])) {
 		}
 	?>
 	</table>
-	<table style="width: 60%">
+	<table>
 	<tr><th>Logs</th></tr>
     	<?php
 		$logs = file($log_dir . "/notehub.log", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
