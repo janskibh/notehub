@@ -65,21 +65,22 @@ include '../include/functions.php';
 				} else if ($interval->s != 0) {
 					$age = $interval->h . "s";
 				}
-				echo '<table style="border: 1px solid ' . $annonce['couleur'] . '; width: 60%;">';
-				echo "<tr><th><span><img src='";
+				echo "<div class='post' style='border: 1px solid " . $annonce['couleur'] . ";'>";
+				echo "<div class='post-userinfo'>";
+				echo "<img src='";
 				echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : "img/default_pp.jpg";
 				echo "' height='50px' width='50px' style='margin-right: 10px; border-radius: 25px'/><span style='position:absolute;'>@" . $annonce['emetteur'];
 				echo $annonce['verified'] ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="20px" style="margin-left: 5px;"/>' : '';
-				echo '</span><span style="font-size: 0.7em; opacity: 0.5; float: right;">' . $age . '<span></span></th></tr>';
-				
-				echo '<tr><td>' . $annonce['message'] . '</td></tr>';
-				echo '</table>';
+				echo "</div>";
+				echo "<div class='post-age'>" . $age . "</div>";
+				echo "<div class='post-content'>" . $annonce['message'] . "</div>";
+				echo "</div>";
 			}
 		}
 		$pdo = null;
 		?>
 		<footer><?php footer()?></footer>
   	</body>
-	<script src="main.js"></script>
+	<script src='main.js'></script>
 	<script>colormode(<?php echo $_SESSION['colormode']?>)</script>
 </html>

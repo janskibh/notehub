@@ -53,12 +53,11 @@ if (!empty($idPubs)) {
 }
 
 foreach($devoirs as $devoir) {
-    echo '<table>';
-    echo '<tr><th colspan="2">' . $devoir['nomRessource'] . '</th></tr>';
-    echo '<tr><td>Date</td><td>' . $devoir['date'] . '</td></tr>';
-    echo '<tr><td>Contenu</td><td>' . $devoir['contenu'] . '</td></tr>';
-    echo '<tr><td>Prof</td><td>' . $devoir['nomProf'] . '</td></tr>';
-    echo '</table>';
+    echo "<div class='post' style='border: 1px solid white'>";
+    echo "<div class='post-userinfo'>" . $devoir['nomProf'] . " - " . $devoir['nomRessource'] . "</div>";
+    echo "<div class='post-age'>" . $devoir['date'] . "</div>";
+    echo "<div class='post-content'>" . $devoir['contenu'] . "</div>";
+    echo "</div>";
 }
 
 // Fermeture de la connexion à la base de données
