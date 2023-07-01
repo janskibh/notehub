@@ -54,7 +54,7 @@ $password = $_SESSION['password'];
         max-width: 80px;
         max-height: 80px;
         margin-left: 10px;
-        color: rgb(29, 155, 240);
+        color: rgb(0, 151, 29);
         user-select: none;
         vertical-align: text-bottom;
         position: relative;
