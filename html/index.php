@@ -57,12 +57,24 @@ include '../include/functions.php';
 				$now = new DateTime("now");
 				$interval = $pubdate->diff($now);
 				if ($interval->days != 0) {
-					$age = $interval->days . "d";
+					if ($interval->h < 12){
+						$age = $interval->days . "j";
+					} else {
+						$age = $interval->days + 1 . "j";
+					}
 				} else if ($interval->h != 0) {
-					$age = $interval->h . "h";
+					if ($interval->m < 30) {
+						$age = $interval->h . "h";
+					} else {
+						$age = $interval->h + 1 . "h";
+					}
 				} else if ($interval->i != 0) {
-					$age = $interval->i . "m";
-				} else if ($interval->s != 0) {
+					if ($interval->s < 30) {
+						$age = $interval->i . "m";
+					} else {
+						$age = $interval->i + 1 . "m";
+					}
+				} else {
 					$age = $interval->h . "s";
 				}
 				echo "<div class='post' style='border: 1px solid " . $annonce['couleur'] . ";'>";
@@ -71,8 +83,7 @@ include '../include/functions.php';
 				echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : "img/default_pp.jpg";
 				echo "' height='50px' width='50px' style='margin-right: 10px; border-radius: 25px'/><span style='position:absolute;'>@" . $annonce['emetteur'];
 				echo $annonce['verified'] ? $verified : '';
-				echo "</div>";
-				echo "<div class='post-age'>" . $age . "</div>";
+				echo " <span style='font-size: 0.8em; opacity: 0.8;'>" . $age . "</span></div>";
 				echo "<div class='post-content'>" . $annonce['message'] . "</div>";
 				echo "</div>";
 			}
