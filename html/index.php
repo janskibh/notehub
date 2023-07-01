@@ -70,7 +70,7 @@ include '../include/functions.php';
 				echo "<img src='";
 				echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : "img/default_pp.jpg";
 				echo "' height='50px' width='50px' style='margin-right: 10px; border-radius: 25px'/><span style='position:absolute;'>@" . $annonce['emetteur'];
-				echo $annonce['verified'] ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="20px" style="margin-left: 5px;"/>' : '';
+				echo $annonce['verified'] ? $verified : '';
 				echo "</div>";
 				echo "<div class='post-age'>" . $age . "</div>";
 				echo "<div class='post-content'>" . $annonce['message'] . "</div>";

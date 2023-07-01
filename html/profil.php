@@ -49,6 +49,20 @@ $password = $_SESSION['password'];
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@latest/dist/apexcharts.min.css">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+      .verified-icon {
+        max-width: 80px;
+        max-height: 80px;
+        margin-left: 10px;
+        color: rgb(29, 155, 240);
+        user-select: none;
+        vertical-align: text-bottom;
+        position: relative;
+        height: 1.25em;
+        fill: currentcolor;
+        display: inline-block;
+      }
+    </style>
   </head>
   <body>
     <nav>
@@ -60,7 +74,7 @@ $password = $_SESSION['password'];
         echo $_SESSION['userdata']['pp_url'] != NULL ? $_SESSION['userdata']['pp_url'] : "img/default_pp.jpg";
         echo "' height='100px' width='100px' style='margin-right: 100px; border-radius: 50px'/>@";
         echo $_SESSION['username'];
-        echo $_SESSION['userdata']['verified'] == 1 ? '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" height="50px" style="margin-left: 20px;"/>' : ""
+        echo $_SESSION['userdata']['verified'] == 1 ? $verified : ""
       ?>
       </h1>
     <?php echo isset($erreur) ? $erreur : "" ?>
